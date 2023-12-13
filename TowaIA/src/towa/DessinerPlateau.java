@@ -9,7 +9,8 @@ package towa;
  * @author tcastillo
  */
 public class DessinerPlateau {
-    
+
+
     public static void dessinerPlateau(Case[][] plateau){
         dessinerLigne();
         for(Case[] ligne:plateau){

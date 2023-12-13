@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="IATowa">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/TowaIA/dist/IATowa.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
