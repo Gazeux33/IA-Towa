@@ -26,14 +26,7 @@ public class IATowaTest {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
+
     final String PLATEAU1
             = "   A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P \n"
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"

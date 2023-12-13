@@ -2,10 +2,7 @@ package towa;
 // test
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -131,6 +128,7 @@ public class IATowa {
         }
     }
 
+
     /**
      * L'action choisie par notre IA.
      *
@@ -141,6 +139,7 @@ public class IATowa {
     public String actionChoisie(Case[][] plateau, int nbToursJeu) {
         JoueurTowa joueur = new JoueurTowa();
         String[] actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
+
         String actionJouee = null;
         if (actionsPossibles.length > 0) {
             Random r = new Random();
@@ -149,6 +148,40 @@ public class IATowa {
         }
         return actionJouee;
     }
+
+    /**
+     * Permet de trouver la meilleure action
+     * @param plateau plateau du jeu
+     * @param actionsPossibles ensembles des actions possibles
+     * @param profondeur profondeur de recherche dans l'arbre
+     * @return la meilleure action
+     */
+    public String trouveMeilleurAction(Case[][] plateau, String[] actionsPossibles,int profondeur){
+        return "Bonjour";
+    }
+
+    /**
+     * Fonction recursive visant à determiner le meilleur score
+     * @param plateau plateau du jeu
+     * @param action action à étudier
+     * @param profondeurTotale profondeur de recherches
+     * @param profondeurCourante profondeur actuelle
+     * @return score de l'action
+     */
+    public int minMax(Case[][] plateau,String action,int profondeurTotale, int profondeurCourante){
+        return 3;
+    }
+
+    /**
+     * Permet d'évaluer le plateau de jeu
+     * @param plateau plateau du jeu
+     * @return score du plateau
+     */
+    public int evaluerPlateau(Case[][] plateau){
+        return 3;
+    }
+
+
 
     /**
      * L'adversaire joue : on récupère son action, met à jour le plateau, et
@@ -371,7 +404,7 @@ public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coor
     public static Case verifDirectionCouleur(Case[][] plateau, Coordonnees coord, int[] direction, char couleur, int depart) {
     return IntStream.range(depart, Coordonnees.NB_LIGNES)
         .mapToObj(i -> new Coordonnees(coord.ligne + direction[1] * i, coord.colonne + direction[0] * i))
-        .filter(c -> estDansPlateau(c))
+        .filter(IATowa::estDansPlateau)
         .map(c -> plateau[c.ligne][c.colonne])
         .filter(Case::tourPresente)
         .findFirst()
