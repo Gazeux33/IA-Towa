@@ -18,7 +18,7 @@ public class IATowaTest {
         Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU1);
         DessinerPlateau.dessinerPlateau(plateau);
         String action = "AmF";
-        System.out.println("Activation en mF ........");
+        System.out.println("Activation de fou en mF ........");
         char couleur = Case.CAR_BLANC;
         IATowa.mettreAJour(plateau, action, couleur);
         DessinerPlateau.dessinerPlateau(plateau);
