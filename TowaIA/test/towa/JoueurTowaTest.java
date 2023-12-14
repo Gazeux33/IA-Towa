@@ -269,17 +269,7 @@ public class JoueurTowaTest {
         
     }
     
-    @Test
-    public void inverserCouleurJoueurTest(){
-        char couleur = Case.CAR_NOIR;
-        assertEquals(Case.CAR_BLANC, JoueurTowa.inverseCouleurJoueur(couleur));
-        
-        couleur = Case.CAR_BLANC;
-        assertEquals(Case.CAR_NOIR, JoueurTowa.inverseCouleurJoueur(couleur));
-        
-        couleur = 'z';
-        assertEquals(' ',JoueurTowa.inverseCouleurJoueur(couleur));
-    }
+
     
     
     

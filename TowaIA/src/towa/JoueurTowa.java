@@ -33,7 +33,7 @@ public class JoueurTowa implements IJoueurTowa {
             // pour chaque colonne
             for (int col = 0; col < Coordonnees.NB_COLONNES; col++) {
                 Coordonnees coord = new Coordonnees(lig, col);
-                Case[] caseActivationEnnemi = caseVoisinActivation(plateau, coord, inverseCouleurJoueur(couleurJoueur));
+                Case[] caseActivationEnnemi = caseVoisinActivation(plateau, coord, Utils.inverseCouleurJoueur(couleurJoueur));
                 Case[] caseActivationAmi = caseVoisinActivation(plateau, coord,couleurJoueur );
 
                 // si la pose d'un pion de cette couleur est possible sur cette case
@@ -166,14 +166,7 @@ public class JoueurTowa implements IJoueurTowa {
 
     }
 
-    static char inverseCouleurJoueur(char couleurJoueur) {
-        if (couleurJoueur == Case.CAR_BLANC) {
-            return Case.CAR_NOIR;
-        } else if (couleurJoueur == Case.CAR_NOIR) {
-            return Case.CAR_BLANC;
-        }
-        return ' ';
-    }
+
 
     public static boolean estDansPlateau(Coordonnees coord) {
         return coord.ligne < Coordonnees.NB_LIGNES && coord.colonne < Coordonnees.NB_COLONNES

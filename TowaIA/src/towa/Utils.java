@@ -86,4 +86,13 @@ public class Utils {
         }
         return laCase;
     }
+
+    static char inverseCouleurJoueur(char couleurJoueur) {
+        if (couleurJoueur == Case.CAR_BLANC) {
+            return Case.CAR_NOIR;
+        } else if (couleurJoueur == Case.CAR_NOIR) {
+            return Case.CAR_BLANC;
+        }
+        return ' ';
+    }
 }

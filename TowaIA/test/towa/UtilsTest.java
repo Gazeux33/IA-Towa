@@ -91,4 +91,16 @@ public class UtilsTest {
         assertEquals(9, laCase.vitalite);
 */
     }
+
+    @Test
+    public void inverserCouleurJoueurTest(){
+        char couleur = Case.CAR_NOIR;
+        assertEquals(Case.CAR_BLANC, Utils.inverseCouleurJoueur(couleur));
+
+        couleur = Case.CAR_BLANC;
+        assertEquals(Case.CAR_NOIR, Utils.inverseCouleurJoueur(couleur));
+
+        couleur = 'z';
+        assertEquals(' ',Utils.inverseCouleurJoueur(couleur));
+    }
 }

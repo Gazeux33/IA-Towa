@@ -23,6 +23,14 @@ public class IATowaTest {
         IATowa.mettreAJour(plateau, action, couleur);
         DessinerPlateau.dessinerPlateau(plateau);
     }
+
+    @Test
+    public void testTrouverMeilleurAction(){
+        IATowa ia = new IATowa("HOTE",6666,Case.CAR_BLANC);
+        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU1);
+        String action = ia.actionChoisie(plateau,40);
+        System.out.println(action);
+    }
     
     
     
