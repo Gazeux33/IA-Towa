@@ -140,7 +140,7 @@ public class IATowa {
         JoueurTowa joueur = new JoueurTowa();
         String[] actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
         actionsPossibles = enleverVitaliteTableau(actionsPossibles);
-        return trouveMeilleurAction(plateau,actionsPossibles,1);
+        return trouveMeilleurAction(plateau,actionsPossibles,10);
     }
 
     /**
@@ -153,11 +153,13 @@ public class IATowa {
     public String trouveMeilleurAction(Case[][] plateau, String[] actionsPossibles,int profondeur){
         int meilleur_score = -1000;
         String meilleur_action = null;
+        int alpha = 10000;
+        int beta = -10000;
 
         for(String action:actionsPossibles){
             Case[][] plateauDeBase = copierPlateau(plateau);
             mettreAJour(plateau,action,couleur);
-            int score = minMax(plateau,true,profondeur,0);
+            int score = minMax(plateau,true,profondeur,0,alpha,beta);
             plateau = plateauDeBase;
             if(score>meilleur_score){
                 meilleur_action = action;
@@ -174,38 +176,46 @@ public class IATowa {
      * @param profondeurCourante profondeur actuelle
      * @return score de l'action
      */
-    public int minMax(Case[][] plateau,boolean maximising,int profondeurTotale, int profondeurCourante){
+    public int minMax(Case[][] plateau,boolean maximising,int profondeurTotale, int profondeurCourante,int alpha,int beta){
         if(profondeurCourante > profondeurTotale){
             return evaluerPlateau(plateau);
         }
         JoueurTowa joueur = new JoueurTowa();
         if(maximising){
-            int best_score = -1000;
+            int score = -1000;
             String[] actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
             actionsPossibles = enleverVitaliteTableau(actionsPossibles);
             for(String action:actionsPossibles){
                 Case[][] plateauDeBase = copierPlateau(plateau);
                 mettreAJour(plateau,action,couleur);
-                int score = minMax(plateau,false,profondeurTotale,profondeurCourante+1);
+                score = Math.max(minMax(plateau,false,profondeurTotale,profondeurCourante+1,alpha,beta),score);
                 plateau = plateauDeBase;
-                if(score > best_score) best_score = score;
+                if(score > beta){
+                    return score;
+                }
+                alpha = Math.max(alpha,score);
             }
-            return best_score;
+            return score;
         }
         else {
-            int worst_score = 1000;
+            int score = 1000;
             String[] actionsPossibles = joueur.actionsPossibles(plateau, Utils.inverseCouleurJoueur(couleur), 8);
             actionsPossibles = enleverVitaliteTableau(actionsPossibles);
             for(String action:actionsPossibles){
                 Case[][] plateauDeBase = copierPlateau(plateau);
                 mettreAJour(plateau,action,couleur);
-                int score = minMax(plateau,true, profondeurTotale, profondeurCourante+1);
+                score = Math.min(minMax(plateau,true, profondeurTotale, profondeurCourante+1,alpha,beta),score);
                 plateau = plateauDeBase;
-                if(score < worst_score) worst_score = score;
+                if(score < alpha){
+                    return score;
+                }
+                beta = Math.min(beta,score);
+
             }
-            return worst_score;
+            return score;
 
         }
+
     }
 
     /**
