@@ -10,25 +10,31 @@ package towa;
  */
 public class DessinerPlateau {
 
+    public static String chaine = "    A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P ";
+    public static char[] tabChaine = new char[]{'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p'};
 
     public static void dessinerPlateau(Case[][] plateau){
+        System.out.println(chaine);
         dessinerLigne();
+        int number = 0;
         for(Case[] ligne:plateau){
             
-            dessinerLigneCase(ligne);
+            dessinerLigneCase(ligne,number);
             dessinerLigne();
+            number++;
         }
         
     }
     
     public static void dessinerLigne(){
-        System.out.println("+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+");
+        System.out.println("  +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+");
     }
     
     
-    public static void dessinerLigneCase(Case[] ligne){
+    public static void dessinerLigneCase(Case[] ligne,int numero){
         StringBuilder chaine = new StringBuilder();
-        chaine.append('|');
+        chaine.append(tabChaine[numero]);
+        chaine.append(" |");
         for(int i=0;i<ligne.length;i++){
             chaine.append(dessinerCase(ligne[i]));
             chaine.append('|');

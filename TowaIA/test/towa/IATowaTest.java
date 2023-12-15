@@ -7,6 +7,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+
+import java.io.IOException;
+
 /**
  *
  * @author tcastillo
@@ -27,9 +30,31 @@ public class IATowaTest {
     @Test
     public void testTrouverMeilleurAction(){
         IATowa ia = new IATowa("HOTE",6666,Case.CAR_BLANC);
-        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU1);
+        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_VIDE);
         String action = ia.actionChoisie(plateau,40);
         System.out.println(action);
+    }
+
+    @Test
+    public void play() throws IOException {
+        IATowa iaB = new IATowa("hote",666,Case.CAR_BLANC);
+        IATowa iaN = new IATowa("hote",666,Case.CAR_NOIR);
+        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_VIDE);
+
+        for(int i=0;i<40;i++){
+            DessinerPlateau.dessinerPlateau(plateau);
+            System.out.println("tour:"+i);
+            System.out.println("demande action Noir....");
+            String actionN = iaN.actionChoisie(plateau,i);
+            System.out.println("Noir joue:"+actionN);
+            IATowa.mettreAJour(plateau,actionN,Case.CAR_NOIR);
+            DessinerPlateau.dessinerPlateau(plateau);
+
+            System.out.println("demande action Blanc....");
+            String actionB = iaB.actionChoisie(plateau,i);
+            System.out.println("Blanc joue:"+actionB);
+            IATowa.mettreAJour(plateau,actionB,Case.CAR_BLANC);
+        }
     }
     
     
@@ -70,4 +95,40 @@ public class IATowaTest {
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
             + "p|   |   |   |   |   |   |B1 |   |   |   |   |   |   |   |   |   |\n"
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n";
+
+    final String PLATEAU_VIDE
+            = "   A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P \n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "a|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "b|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "c|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "d|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "e|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "f|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "g|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "h|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "i|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "j|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "k|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "l|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "m|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "n|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "o|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "p|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+";
 }

@@ -37,6 +37,8 @@ public class IATowa {
      */
     static final int NB_TOURS_JEU_MAX = 40;
 
+    static final int PROFONDEUR = 0;
+
     /**
      * Constructeur.
      *
@@ -140,7 +142,7 @@ public class IATowa {
         JoueurTowa joueur = new JoueurTowa();
         String[] actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
         actionsPossibles = enleverVitaliteTableau(actionsPossibles);
-        return trouveMeilleurAction(plateau,actionsPossibles,10);
+        return trouveMeilleurAction(plateau,actionsPossibles,PROFONDEUR);
     }
 
     /**
@@ -151,15 +153,15 @@ public class IATowa {
      * @return la meilleure action
      */
     public String trouveMeilleurAction(Case[][] plateau, String[] actionsPossibles,int profondeur){
-        int meilleur_score = -1000;
+        int meilleur_score = Integer.MIN_VALUE;
         String meilleur_action = null;
-        int alpha = 10000;
-        int beta = -10000;
+        int alpha = Integer.MAX_VALUE;
+        int beta = Integer.MIN_VALUE;
 
         for(String action:actionsPossibles){
             Case[][] plateauDeBase = copierPlateau(plateau);
             mettreAJour(plateau,action,couleur);
-            int score = minMax(plateau,true,profondeur,0,alpha,beta);
+            int score = minMax(plateau,true,profondeur,0);
             plateau = plateauDeBase;
             if(score>meilleur_score){
                 meilleur_action = action;
@@ -176,48 +178,39 @@ public class IATowa {
      * @param profondeurCourante profondeur actuelle
      * @return score de l'action
      */
-    public int minMax(Case[][] plateau,boolean maximising,int profondeurTotale, int profondeurCourante,int alpha,int beta){
+    public int minMax(Case[][] plateau,boolean maximising,int profondeurTotale, int profondeurCourante){
+        int score;
+        JoueurTowa joueur = new JoueurTowa();
+        String[] actionsPossibles;
+
         if(profondeurCourante > profondeurTotale){
             return evaluerPlateau(plateau);
         }
-        JoueurTowa joueur = new JoueurTowa();
         if(maximising){
-            int score = -1000;
-            String[] actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
+            score = Integer.MIN_VALUE;
+            actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
             actionsPossibles = enleverVitaliteTableau(actionsPossibles);
             for(String action:actionsPossibles){
                 Case[][] plateauDeBase = copierPlateau(plateau);
                 mettreAJour(plateau,action,couleur);
-                score = Math.max(minMax(plateau,false,profondeurTotale,profondeurCourante+1,alpha,beta),score);
+                score = Math.max(minMax(plateau,false,profondeurTotale,profondeurCourante+1),score);
                 plateau = plateauDeBase;
-                if(score > beta){
-                    return score;
-                }
-                alpha = Math.max(alpha,score);
             }
-            return score;
         }
         else {
-            int score = 1000;
-            String[] actionsPossibles = joueur.actionsPossibles(plateau, Utils.inverseCouleurJoueur(couleur), 8);
+            score = Integer.MAX_VALUE;
+            actionsPossibles = joueur.actionsPossibles(plateau, Utils.inverseCouleurJoueur(couleur), 8);
             actionsPossibles = enleverVitaliteTableau(actionsPossibles);
             for(String action:actionsPossibles){
                 Case[][] plateauDeBase = copierPlateau(plateau);
                 mettreAJour(plateau,action,couleur);
-                score = Math.min(minMax(plateau,true, profondeurTotale, profondeurCourante+1,alpha,beta),score);
+                score = Math.min(minMax(plateau,true, profondeurTotale, profondeurCourante+1),score);
                 plateau = plateauDeBase;
-                if(score < alpha){
-                    return score;
-                }
-                beta = Math.min(beta,score);
-
             }
-            return score;
-
         }
+        return score;
 
     }
-
     /**
      * Permet d'évaluer le plateau de jeu
      * @param plateau plateau du jeu
@@ -230,8 +223,6 @@ public class IATowa {
         }
         return nbPions.nbPionsBlancs-nbPions.nbPionsNoirs;
     }
-
-
 
     /**
      * L'adversaire joue : on récupère son action, met à jour le plateau, et

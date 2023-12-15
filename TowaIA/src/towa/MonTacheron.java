@@ -67,6 +67,10 @@ class MonTacheron {
         // booléen pour détecter la fin du jeu
         boolean fin = false;
         while (!fin) {
+            System.out.println();
+            System.out.println();
+            System.out.println("Tour: "+nbToursJeu);
+
             // choisir l'action
             String actionChoisie;
             String joueur;
@@ -80,6 +84,7 @@ class MonTacheron {
             System.out.println(joueur + " joue : " + actionChoisie);
             // mettre à jour le plateau
             IATowa.mettreAJour(plateau, actionChoisie, couleurTourDeJeu);
+            DessinerPlateau.dessinerPlateau(plateau);
             if (nbToursJeu == IATowa.NB_TOURS_JEU_MAX) {
                 // fini
                 fin = true;

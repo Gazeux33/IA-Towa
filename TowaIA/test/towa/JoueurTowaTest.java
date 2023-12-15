@@ -205,16 +205,13 @@ public class JoueurTowaTest {
         JoueurTowa joueur = new JoueurTowa();
         Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_NIVEAU2);
         int niveau = 8;
-        
-        
+
         char couleur = Case.CAR_NOIR;
         String[] actionsPossiblesDepuisPlateau = joueur.actionsPossibles(plateau, couleur, niveau);
         ActionsPossibles actionsPossibles= new ActionsPossibles(actionsPossiblesDepuisPlateau);
         assertTrue(actionsPossibles.contient("FnG,25,20"));
         assertTrue(actionsPossibles.contient("FkJ,26,20"));
-        
-        
-        
+
         couleur = Case.CAR_BLANC;
         actionsPossiblesDepuisPlateau = joueur.actionsPossibles(plateau, couleur, niveau);
         actionsPossibles = new ActionsPossibles(actionsPossiblesDepuisPlateau);
