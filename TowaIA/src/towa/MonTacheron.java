@@ -76,6 +76,7 @@ class MonTacheron {
             String joueur;
             if (couleurTourDeJeu == couleurIA) {
                 actionChoisie = monIA.actionChoisie(plateau, nbToursJeu);
+
                 joueur = "IATowa";
             } else {
                 actionChoisie = monTacheron.actionChoisie(plateau, nbToursJeu);
@@ -87,6 +88,8 @@ class MonTacheron {
             DessinerPlateau.dessinerPlateau(plateau);
             if (nbToursJeu == IATowa.NB_TOURS_JEU_MAX) {
                 // fini
+                NbPions nbPions = JoueurTowa.nbPions(plateau);
+                System.out.println("Pions noirs:"+nbPions.nbPionsNoirs+"    Pions Blancs:"+nbPions.nbPionsBlancs);
                 fin = true;
             } else {
                 // au suivant
@@ -119,7 +122,7 @@ class MonTacheron {
      */
     public static void main(String[] args) {
         // choisir la couleur de l'AI
-        char couleurIA = Case.CAR_NOIR;
+        char couleurIA = Case.CAR_BLANC;
         // monTacheron prend l'autre couleur
         char couleurTacheron = IATowa.suivant(couleurIA);
         // lancement

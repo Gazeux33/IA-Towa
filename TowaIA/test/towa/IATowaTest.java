@@ -18,7 +18,7 @@ public class IATowaTest {
     
     @Test
     public void testActiver(){
-        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU1);
+        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_MOYEN);
         DessinerPlateau.dessinerPlateau(plateau);
         String action = "AmF";
         System.out.println("Activation de fou en mF ........");
@@ -35,32 +35,12 @@ public class IATowaTest {
         System.out.println(action);
     }
 
-    @Test
-    public void play() throws IOException {
-        IATowa iaB = new IATowa("hote",666,Case.CAR_BLANC);
-        IATowa iaN = new IATowa("hote",666,Case.CAR_NOIR);
-        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_VIDE);
 
-        for(int i=0;i<40;i++){
-            DessinerPlateau.dessinerPlateau(plateau);
-            System.out.println("tour:"+i);
-            System.out.println("demande action Noir....");
-            String actionN = iaN.actionChoisie(plateau,i);
-            System.out.println("Noir joue:"+actionN);
-            IATowa.mettreAJour(plateau,actionN,Case.CAR_NOIR);
-            DessinerPlateau.dessinerPlateau(plateau);
-
-            System.out.println("demande action Blanc....");
-            String actionB = iaB.actionChoisie(plateau,i);
-            System.out.println("Blanc joue:"+actionB);
-            IATowa.mettreAJour(plateau,actionB,Case.CAR_BLANC);
-        }
-    }
     
     
     
 
-    final String PLATEAU1
+    final String PLATEAU_MOYEN
             = "   A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P \n"
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
             + "a|   |   |   |   |   |   |B1 |   |   |   |   |   |   |   |   |   |\n"

@@ -36,8 +36,8 @@ public class IATowa {
      * Nombre maximal de tours de jeu.
      */
     static final int NB_TOURS_JEU_MAX = 40;
-
-    static final int PROFONDEUR = 0;
+    static final int NB_ACTION_SELEC = 10;
+    static final int PROFONDEUR = 6;
 
     /**
      * Constructeur.
@@ -141,6 +141,7 @@ public class IATowa {
     public String actionChoisie(Case[][] plateau, int nbToursJeu) {
         JoueurTowa joueur = new JoueurTowa();
         String[] actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
+        actionsPossibles = selectionnerActions(actionsPossibles,couleur);
         actionsPossibles = enleverVitaliteTableau(actionsPossibles);
         return trouveMeilleurAction(plateau,actionsPossibles,PROFONDEUR);
     }
@@ -155,13 +156,13 @@ public class IATowa {
     public String trouveMeilleurAction(Case[][] plateau, String[] actionsPossibles,int profondeur){
         int meilleur_score = Integer.MIN_VALUE;
         String meilleur_action = null;
-        int alpha = Integer.MAX_VALUE;
-        int beta = Integer.MIN_VALUE;
+        int alpha = Integer.MIN_VALUE;// -infinie
+        int beta = Integer.MAX_VALUE;// +infini
 
         for(String action:actionsPossibles){
             Case[][] plateauDeBase = copierPlateau(plateau);
             mettreAJour(plateau,action,couleur);
-            int score = minMax(plateau,true,profondeur,0);
+            int score = minMax(plateau,true,profondeur,0,alpha,beta);
             plateau = plateauDeBase;
             if(score>meilleur_score){
                 meilleur_action = action;
@@ -178,38 +179,46 @@ public class IATowa {
      * @param profondeurCourante profondeur actuelle
      * @return score de l'action
      */
-    public int minMax(Case[][] plateau,boolean maximising,int profondeurTotale, int profondeurCourante){
-        int score;
+    public int minMax(Case[][] plateau, boolean maximising, int profondeurTotale, int profondeurCourante, int alpha, int beta) {
         JoueurTowa joueur = new JoueurTowa();
         String[] actionsPossibles;
 
-        if(profondeurCourante > profondeurTotale){
+        // Condition de base : si la profondeur maximale est atteinte
+        if (profondeurCourante >= profondeurTotale) {
             return evaluerPlateau(plateau);
         }
-        if(maximising){
-            score = Integer.MIN_VALUE;
-            actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
-            actionsPossibles = enleverVitaliteTableau(actionsPossibles);
-            for(String action:actionsPossibles){
-                Case[][] plateauDeBase = copierPlateau(plateau);
-                mettreAJour(plateau,action,couleur);
-                score = Math.max(minMax(plateau,false,profondeurTotale,profondeurCourante+1),score);
-                plateau = plateauDeBase;
-            }
-        }
-        else {
-            score = Integer.MAX_VALUE;
-            actionsPossibles = joueur.actionsPossibles(plateau, Utils.inverseCouleurJoueur(couleur), 8);
-            actionsPossibles = enleverVitaliteTableau(actionsPossibles);
-            for(String action:actionsPossibles){
-                Case[][] plateauDeBase = copierPlateau(plateau);
-                mettreAJour(plateau,action,couleur);
-                score = Math.min(minMax(plateau,true, profondeurTotale, profondeurCourante+1),score);
-                plateau = plateauDeBase;
-            }
-        }
-        return score;
 
+        if (maximising) {
+            int scoreMax = Integer.MIN_VALUE;
+            actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
+            actionsPossibles = selectionnerActions(actionsPossibles,couleur);
+            for (String action : actionsPossibles) {
+                Case[][] plateauCopie = copierPlateau(plateau);
+                mettreAJour(plateauCopie, action, couleur);
+                int score = minMax(plateauCopie, false, profondeurTotale, profondeurCourante + 1, alpha, beta);
+                scoreMax = Math.max(scoreMax, score);
+                alpha = Math.max(alpha, scoreMax);
+                if (alpha >= beta) {
+                    break; // Élagage alpha
+                }
+            }
+            return scoreMax;
+        } else {
+            int scoreMin = Integer.MAX_VALUE;
+            actionsPossibles = joueur.actionsPossibles(plateau, Utils.inverseCouleurJoueur(couleur), 8);
+            actionsPossibles = selectionnerActions(actionsPossibles,Utils.inverseCouleurJoueur(couleur));
+            for (String action : actionsPossibles) {
+                Case[][] plateauCopie = copierPlateau(plateau);
+                mettreAJour(plateauCopie, action, Utils.inverseCouleurJoueur(couleur));
+                int score = minMax(plateauCopie, true, profondeurTotale, profondeurCourante + 1, alpha, beta);
+                scoreMin = Math.min(scoreMin, score);
+                beta = Math.min(beta, scoreMin);
+                if (alpha >= beta) {
+                    break; // Élagage beta
+                }
+            }
+            return scoreMin;
+        }
     }
     /**
      * Permet d'évaluer le plateau de jeu
@@ -355,7 +364,7 @@ public class IATowa {
     static boolean ennemiVoisine(Coordonnees coord, Case[][] plateau, char couleurCourante) {
         return voisines(coord)
                 .map(v -> plateau[v.ligne][v.colonne])
-                .filter(c -> c.tourPresente())
+                .filter(Case::tourPresente)
                 .anyMatch(c -> c.couleur != couleurCourante);
     }
 
@@ -474,5 +483,46 @@ public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coor
             }
         }
         return newPlateau;
+    }
+
+    public static String[] selectionnerActions(String[] actionsPossibles, char couleur) {
+        String[] actionsSelectionnees = new String[NB_ACTION_SELEC];
+        PriorityQueue<Map.Entry<String, Integer>> queue = new PriorityQueue<>(
+                (a, b) -> Integer.compare(b.getValue(), a.getValue())
+        );
+        for (String action : actionsPossibles) {
+            int score = scoreAction(action, couleur);
+            queue.add(new AbstractMap.SimpleEntry<>(action, score));
+        }
+        for (int i = 0; i < NB_ACTION_SELEC && !queue.isEmpty(); i++) {
+            actionsSelectionnees[i] = queue.poll().getKey();
+        }
+        return actionsSelectionnees;
+    }
+
+    public static int[] getVitalite(String action){
+        String[] parts = action.split(",");
+        int[] numbers = new int[2];
+        numbers[0] = Integer.parseInt(parts[1]);
+        numbers[1] = Integer.parseInt(parts[2]);
+        return numbers;
+    }
+
+    public static int scoreAction(String action,char couleur){
+        int[] numbers = getVitalite(action);
+
+        switch (couleur){
+            case Case.CAR_NOIR -> {
+                return numbers[0]-numbers[1];
+            }
+            case Case.CAR_BLANC -> {
+                return numbers[1]-numbers[0];
+            }
+            default -> {
+                return 0;
+            }
+
+        }
+
     }
 }
