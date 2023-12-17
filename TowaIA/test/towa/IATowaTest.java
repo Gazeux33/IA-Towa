@@ -52,6 +52,16 @@ public class IATowaTest {
 
     }
 
+    @Test
+    public void testTrouverMeilleurActionUnique(){
+        char couleur = Case.CAR_BLANC;
+        IATowa ia = new IATowa("HOTE",1,couleur);
+        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_VIDE);
+        String[] actionsPossibles = new String[]{"PaA"};
+        String meilleurAction = ia.trouveMeilleurAction(plateau,actionsPossibles,2);
+        System.out.println(meilleurAction);
+    }
+
 
 
     
@@ -109,7 +119,7 @@ public class IATowaTest {
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
             + "f|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
-            + "g|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + "g|   |   |   |   |   |   |N1 |   |   |   |   |   |   |   |   |   |\n"
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
             + "h|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"

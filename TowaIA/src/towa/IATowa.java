@@ -15,12 +15,12 @@ public class IATowa {
     /**
      * Hôte du grand ordonnateur.
      */
-    String hote = null;
+    String hote;
 
     /**
      * Port du grand ordonnateur.
      */
-    int port = -1;
+    int port;
 
     /**
      * Couleur de votre joueur (IA) : 'N'oir ou 'B'lanc.
@@ -30,14 +30,14 @@ public class IATowa {
     /**
      * Interface pour le protocole du grand ordonnateur.
      */
-    TcpGrandOrdonnateur grandOrdo = null;
+    TcpGrandOrdonnateur grandOrdo;
 
     /**
      * Nombre maximal de tours de jeu.
      */
     static final int NB_TOURS_JEU_MAX = 40;
     static final int NB_ACTION_SELEC = 10;
-    static final int PROFONDEUR = 2;
+    static final int PROFONDEUR = 5;
 
     /**
      * Constructeur.
@@ -113,9 +113,8 @@ public class IATowa {
      *
      * @param plateau le plateau de jeu
      * @param nbToursJeu numéro du tour de jeu
-     * @throws IOException exception sur les entrées / sorties
      */
-    void jouer(Case[][] plateau, int nbToursJeu) throws IOException {
+    void jouer(Case[][] plateau, int nbToursJeu) {
         String actionJouee = actionChoisie(plateau, nbToursJeu);
         if (actionJouee != null) {
             // jouer l'action
@@ -162,8 +161,7 @@ public class IATowa {
         for(String action:actionsPossibles){
             Case[][] plateauAModifier = copierPlateau(copiePlateau);
             mettreAJour(plateauAModifier,action,couleur);
-            int score = minMax(plateauAModifier,true,profondeur,0,alpha,beta);
-            System.out.println("("+action +","+score+") ");
+            int score = minMax(plateauAModifier,true,profondeur,0);
             if(score>meilleur_score){
                 meilleur_action = action;
                 meilleur_score = score;
@@ -179,11 +177,9 @@ public class IATowa {
      * @param profondeurCourante profondeur actuelle
      * @return score de l'action
      */
-    public int minMax(Case[][] plateau, boolean maximising, int profondeurTotale, int profondeurCourante, int alpha, int beta) {
+    public int minMax(Case[][] plateau, boolean maximising, int profondeurTotale, int profondeurCourante) {
         JoueurTowa joueur = new JoueurTowa();
         String[] actionsPossibles;
-
-        // Condition de base : si la profondeur maximale est atteinte
         if (profondeurCourante >= profondeurTotale) {
             return evaluerPlateau(plateau);
         }
@@ -192,30 +188,26 @@ public class IATowa {
             int scoreMax = Integer.MIN_VALUE;
             actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
             actionsPossibles = selectionnerActions(actionsPossibles,couleur);
+            actionsPossibles = enleverVitaliteTableau(actionsPossibles);
             for (String action : actionsPossibles) {
                 Case[][] plateauCopie = copierPlateau(plateau);
                 mettreAJour(plateauCopie, action, couleur);
-                int score = minMax(plateauCopie, false, profondeurTotale, profondeurCourante + 1, alpha, beta);
+                int score = minMax(plateauCopie, false, profondeurTotale, profondeurCourante + 1);
                 scoreMax = Math.max(scoreMax, score);
-                alpha = Math.max(alpha, scoreMax);
-                if (alpha >= beta) {
-                    break; // Élagage alpha
-                }
+
             }
             return scoreMax;
         } else {
             int scoreMin = Integer.MAX_VALUE;
             actionsPossibles = joueur.actionsPossibles(plateau, Utils.inverseCouleurJoueur(couleur), 8);
             actionsPossibles = selectionnerActions(actionsPossibles,Utils.inverseCouleurJoueur(couleur));
+            actionsPossibles = enleverVitaliteTableau(actionsPossibles);
             for (String action : actionsPossibles) {
                 Case[][] plateauCopie = copierPlateau(plateau);
                 mettreAJour(plateauCopie, action, Utils.inverseCouleurJoueur(couleur));
-                int score = minMax(plateauCopie, true, profondeurTotale, profondeurCourante + 1, alpha, beta);
+                int score = minMax(plateauCopie, true, profondeurTotale, profondeurCourante + 1);
                 scoreMin = Math.min(scoreMin, score);
-                beta = Math.min(beta, scoreMin);
-                if (alpha >= beta) {
-                    break; // Élagage beta
-                }
+
             }
             return scoreMin;
         }
@@ -328,6 +320,7 @@ public class IATowa {
     static void activer(Coordonnees coord, Case[][] plateau, char couleurCourante) {
     Case caseCourante = plateau[coord.ligne][coord.colonne];
         List<Case> casesAPortee = caseVoisinActivation(plateau, coord, Utils.inverseCouleurJoueur(couleurCourante));
+
 
     for (Case tourADetruire : casesAPortee){
         if (tourADetruire.hauteur < caseCourante.hauteur) {
