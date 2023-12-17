@@ -29,11 +29,29 @@ public class IATowaTest {
 
     @Test
     public void testTrouverMeilleurAction(){
-        IATowa ia = new IATowa("HOTE",6666,Case.CAR_BLANC);
-        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_VIDE);
+        IATowa ia = new IATowa("HOTE",6666,Case.CAR_NOIR);
+        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_MOYEN);
+        NbPions nbPions= JoueurTowa.nbPions(plateau);
+        System.out.println("Noir:"+nbPions.nbPionsNoirs+"   Blanc:"+nbPions.nbPionsBlancs);
         String action = ia.actionChoisie(plateau,40);
         System.out.println(action);
     }
+
+    @Test
+    public void testTrouverMeilleurActionPlateau(){
+        char couleur = Case.CAR_BLANC;
+        IATowa ia = new IATowa("HOTE",6666,couleur);
+        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_VIDE);
+        DessinerPlateau.dessinerPlateau(plateau);
+        String action = ia.actionChoisie(plateau,40);
+        System.out.println(action);
+        System.out.println("plateau a l'instant t:");
+        DessinerPlateau.dessinerPlateau(plateau);
+        IATowa.mettreAJour(plateau,action,couleur);
+        DessinerPlateau.dessinerPlateau(plateau);
+
+    }
+
 
 
     

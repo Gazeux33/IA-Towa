@@ -37,7 +37,7 @@ public class IATowa {
      */
     static final int NB_TOURS_JEU_MAX = 40;
     static final int NB_ACTION_SELEC = 10;
-    static final int PROFONDEUR = 6;
+    static final int PROFONDEUR = 2;
 
     /**
      * Constructeur.
@@ -158,12 +158,12 @@ public class IATowa {
         String meilleur_action = null;
         int alpha = Integer.MIN_VALUE;// -infinie
         int beta = Integer.MAX_VALUE;// +infini
-
+        Case[][] copiePlateau = copierPlateau(plateau);
         for(String action:actionsPossibles){
-            Case[][] plateauDeBase = copierPlateau(plateau);
-            mettreAJour(plateau,action,couleur);
-            int score = minMax(plateau,true,profondeur,0,alpha,beta);
-            plateau = plateauDeBase;
+            Case[][] plateauAModifier = copierPlateau(copiePlateau);
+            mettreAJour(plateauAModifier,action,couleur);
+            int score = minMax(plateauAModifier,true,profondeur,0,alpha,beta);
+            System.out.println("("+action +","+score+") ");
             if(score>meilleur_score){
                 meilleur_action = action;
                 meilleur_score = score;
@@ -486,6 +486,9 @@ public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coor
     }
 
     public static String[] selectionnerActions(String[] actionsPossibles, char couleur) {
+        if(NB_ACTION_SELEC == -1){
+            return actionsPossibles;
+        }
         String[] actionsSelectionnees = new String[NB_ACTION_SELEC];
         PriorityQueue<Map.Entry<String, Integer>> queue = new PriorityQueue<>(
                 (a, b) -> Integer.compare(b.getValue(), a.getValue())
@@ -494,6 +497,7 @@ public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coor
             int score = scoreAction(action, couleur);
             queue.add(new AbstractMap.SimpleEntry<>(action, score));
         }
+
         for (int i = 0; i < NB_ACTION_SELEC && !queue.isEmpty(); i++) {
             actionsSelectionnees[i] = queue.poll().getKey();
         }

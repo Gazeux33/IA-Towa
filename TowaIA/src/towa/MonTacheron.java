@@ -57,6 +57,7 @@ class MonTacheron {
         System.out.println("Joueur IA est " + couleurIA + ".");
         // instantiation de mon IA
         IATowa monIA = new IATowa("", -1, couleurIA);
+        IATowa monIA2 = new IATowa("", -1, couleurTacheron);
         MonTacheron monTacheron = new MonTacheron(couleurTacheron);
         // le plateau initial : vide
         Case[][] plateau = plateauInitial();
@@ -127,5 +128,16 @@ class MonTacheron {
         char couleurTacheron = IATowa.suivant(couleurIA);
         // lancement
         toursDeJeu(couleurIA, couleurTacheron);
+    }
+
+    static void printPlateau(Case[][] plateau){
+        for (Case[] ligne : plateau) {
+            for (Case aCase : ligne) {
+                System.out.println();
+                System.out.println(aCase.hauteur);
+                System.out.println(aCase.couleur);
+                System.out.println();
+            }
+        }
     }
 }
