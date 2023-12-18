@@ -36,8 +36,8 @@ public class IATowa {
      * Nombre maximal de tours de jeu.
      */
     static final int NB_TOURS_JEU_MAX = 40;
-    static final int NB_ACTION_SELEC = 10;
-    static final int PROFONDEUR = 5;
+    static final int NB_ACTION_SELEC = 9;
+    static final int PROFONDEUR = 4;
 
     /**
      * Constructeur.
@@ -161,7 +161,7 @@ public class IATowa {
         for(String action:actionsPossibles){
             Case[][] plateauAModifier = copierPlateau(copiePlateau);
             mettreAJour(plateauAModifier,action,couleur);
-            int score = minMax(plateauAModifier,true,profondeur,0);
+            int score = minMax(plateauAModifier,true,profondeur,0,alpha,beta);
             if(score>meilleur_score){
                 meilleur_action = action;
                 meilleur_score = score;
@@ -177,7 +177,7 @@ public class IATowa {
      * @param profondeurCourante profondeur actuelle
      * @return score de l'action
      */
-    public int minMax(Case[][] plateau, boolean maximising, int profondeurTotale, int profondeurCourante) {
+    public int minMax(Case[][] plateau, boolean maximising, int profondeurTotale, int profondeurCourante,int alpha ,int beta) {
         JoueurTowa joueur = new JoueurTowa();
         String[] actionsPossibles;
         if (profondeurCourante >= profondeurTotale) {
@@ -185,31 +185,36 @@ public class IATowa {
         }
 
         if (maximising) {
-            int scoreMax = Integer.MIN_VALUE;
+            int score = Integer.MIN_VALUE;
             actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
             actionsPossibles = selectionnerActions(actionsPossibles,couleur);
             actionsPossibles = enleverVitaliteTableau(actionsPossibles);
             for (String action : actionsPossibles) {
                 Case[][] plateauCopie = copierPlateau(plateau);
                 mettreAJour(plateauCopie, action, couleur);
-                int score = minMax(plateauCopie, false, profondeurTotale, profondeurCourante + 1);
-                scoreMax = Math.max(scoreMax, score);
+                score = Math.max(score,minMax(plateauCopie, false, profondeurTotale, profondeurCourante + 1,alpha,beta));
+                alpha = Math.max(alpha, score);
+                if (score >= beta) {
+                    break; // Élagage alpha
+                }
 
             }
-            return scoreMax;
+            return score;
         } else {
-            int scoreMin = Integer.MAX_VALUE;
+            int score = Integer.MAX_VALUE;
             actionsPossibles = joueur.actionsPossibles(plateau, Utils.inverseCouleurJoueur(couleur), 8);
             actionsPossibles = selectionnerActions(actionsPossibles,Utils.inverseCouleurJoueur(couleur));
             actionsPossibles = enleverVitaliteTableau(actionsPossibles);
             for (String action : actionsPossibles) {
                 Case[][] plateauCopie = copierPlateau(plateau);
                 mettreAJour(plateauCopie, action, Utils.inverseCouleurJoueur(couleur));
-                int score = minMax(plateauCopie, true, profondeurTotale, profondeurCourante + 1);
-                scoreMin = Math.min(scoreMin, score);
-
+                score = Math.min(score,minMax(plateauCopie, true, profondeurTotale, profondeurCourante + 1,alpha,beta));
+                beta = Math.min(beta, score);
+                if (score <= alpha) {
+                    break; // Élagage beta
+                }
             }
-            return scoreMin;
+            return score;
         }
     }
     /**
@@ -330,10 +335,15 @@ public class IATowa {
 }
     
     static void fusionner(Coordonnees coord, Case[][] plateau, char couleurCourante){
+        Case caseCourante = plateau[coord.ligne][coord.colonne];
+        int nbTours = 0;
         List<Case> casesAPortee = caseVoisinActivation(plateau, coord, couleurCourante);
-    for (Case tourADetruire : casesAPortee){
-        detruireTour(tourADetruire);
-    }
+
+        for (Case tourADetruire : casesAPortee){
+            nbTours += tourADetruire.hauteur;
+            detruireTour(tourADetruire);
+        }
+        caseCourante.hauteur = Math.min(4,caseCourante.hauteur+nbTours);
 }
 
     /**
@@ -482,18 +492,31 @@ public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coor
         if(NB_ACTION_SELEC == -1){
             return actionsPossibles;
         }
-        String[] actionsSelectionnees = new String[NB_ACTION_SELEC];
-        PriorityQueue<Map.Entry<String, Integer>> queue = new PriorityQueue<>(
+        PriorityQueue<Map.Entry<String, Integer>> meilleuresActions = new PriorityQueue<>(
                 (a, b) -> Integer.compare(b.getValue(), a.getValue())
         );
+
+        PriorityQueue<Map.Entry<String, Integer>> piresActions = new PriorityQueue<>(
+                Comparator.comparingInt(Map.Entry::getValue)
+        );
+
         for (String action : actionsPossibles) {
             int score = scoreAction(action, couleur);
-            queue.add(new AbstractMap.SimpleEntry<>(action, score));
+            meilleuresActions.add(new AbstractMap.SimpleEntry<>(action, score));
+            piresActions.add(new AbstractMap.SimpleEntry<>(action, score));
         }
 
-        for (int i = 0; i < NB_ACTION_SELEC && !queue.isEmpty(); i++) {
-            actionsSelectionnees[i] = queue.poll().getKey();
+        String[] actionsSelectionnees = new String[NB_ACTION_SELEC * 2]; // Pour stocker les 10 meilleures et les 10 pires
+
+        for (int i = 0; i < NB_ACTION_SELEC; i++) {
+            if (!meilleuresActions.isEmpty()) {
+                actionsSelectionnees[i] = meilleuresActions.poll().getKey();
+            }
+            if (!piresActions.isEmpty()) {
+                actionsSelectionnees[NB_ACTION_SELEC + i] = piresActions.poll().getKey();
+            }
         }
+
         return actionsSelectionnees;
     }
 
@@ -522,4 +545,5 @@ public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coor
         }
 
     }
+
 }

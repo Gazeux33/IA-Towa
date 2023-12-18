@@ -28,8 +28,18 @@ public class IATowaTest {
     }
 
     @Test
+    public void testFusion(){
+        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_FUSION);
+        DessinerPlateau.dessinerPlateau(plateau);
+        String action = "FgG";
+        char couleur = Case.CAR_NOIR;
+        IATowa.mettreAJour(plateau, action, couleur);
+        DessinerPlateau.dessinerPlateau(plateau);
+    }
+
+    @Test
     public void testTrouverMeilleurAction(){
-        IATowa ia = new IATowa("HOTE",6666,Case.CAR_NOIR);
+        IATowa ia = new IATowa("HOTE",6666,Case.CAR_BLANC);
         Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_MOYEN);
         NbPions nbPions= JoueurTowa.nbPions(plateau);
         System.out.println("Noir:"+nbPions.nbPionsNoirs+"   Blanc:"+nbPions.nbPionsBlancs);
@@ -39,9 +49,9 @@ public class IATowaTest {
 
     @Test
     public void testTrouverMeilleurActionPlateau(){
-        char couleur = Case.CAR_BLANC;
+        char couleur = Case.CAR_NOIR;
         IATowa ia = new IATowa("HOTE",6666,couleur);
-        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_VIDE);
+        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_FUSION);
         DessinerPlateau.dessinerPlateau(plateau);
         String action = ia.actionChoisie(plateau,40);
         System.out.println(action);
@@ -54,11 +64,11 @@ public class IATowaTest {
 
     @Test
     public void testTrouverMeilleurActionUnique(){
-        char couleur = Case.CAR_BLANC;
+        char couleur = Case.CAR_NOIR;
         IATowa ia = new IATowa("HOTE",1,couleur);
-        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_VIDE);
-        String[] actionsPossibles = new String[]{"PaA"};
-        String meilleurAction = ia.trouveMeilleurAction(plateau,actionsPossibles,2);
+        Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_FUSION);
+        String[] actionsPossibles = new String[]{"FgG","PeE"};
+        String meilleurAction = ia.trouveMeilleurAction(plateau,actionsPossibles,4);
         System.out.println(meilleurAction);
     }
 
@@ -124,6 +134,42 @@ public class IATowaTest {
             + "h|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
             + "i|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "j|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "k|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "l|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "m|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "n|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "o|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "p|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+";
+
+    final String PLATEAU_FUSION
+            = "   A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P \n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "a|   |   |   |   |   |   |N3 |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "b|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "c|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "d|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "e|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "f|   |   |   |   |   |B2 |   |B2 |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "g|   |   |   |   |B2 |   |N1 |   |B2 |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "h|   |   |   |   |   |B2 |   |B2 |   |   |   |   |   |   |   |   |\n"
+            + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
+            + "i|   |   |   |   |   |   |B2 |   |   |   |   |   |   |   |   |   |\n"
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
             + "j|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n"
             + " +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n"
