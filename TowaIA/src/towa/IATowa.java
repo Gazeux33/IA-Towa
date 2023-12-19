@@ -36,8 +36,8 @@ public class IATowa {
      * Nombre maximal de tours de jeu.
      */
     static final int NB_TOURS_JEU_MAX = 40;
-    static final int NB_ACTION_SELEC = 9;
-    static final int PROFONDEUR = 4;
+    static final int NB_ACTION_SELEC = 8;
+    static final int PROFONDEUR = 3;
 
     /**
      * Constructeur.
@@ -564,18 +564,18 @@ public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coor
         int[] numbers = getVitalite(action);
 
         switch (couleur){
-            case Case.CAR_NOIR -> {
+            case Case.CAR_NOIR:
                 return numbers[0]-numbers[1];
-            }
-            case Case.CAR_BLANC -> {
+            
+            case Case.CAR_BLANC:
                 return numbers[1]-numbers[0];
-            }
-            default -> {
+            
+            default:
                 return 0;
             }
 
         }
 
-    }
+    
 
 }

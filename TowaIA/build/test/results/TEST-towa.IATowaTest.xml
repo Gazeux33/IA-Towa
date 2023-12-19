@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="vdi-linux-05" name="towa.IATowaTest" skipped="0" tests="1" time="0.124" timestamp="2023-12-13T16:38:12">
+<testsuite errors="0" failures="0" hostname="info-205-10x" name="towa.IATowaTest" skipped="0" tests="1" time="0.105" timestamp="2023-12-19T12:30:30">
   <properties>
     <property name="libs.spring-framework300.classpath" value="/mnt/raddix/opt/netbeans/platform/modules/org-apache-commons-logging.jar:/mnt/raddix/opt/netbeans/java/modules/ext/cglib-2.2.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-aop-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-aspects-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-beans-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-context-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-context-support-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-core-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-expression-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-instrument-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-instrument-tomcat-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-jdbc-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-jms-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-orm-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-oxm-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-struts-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-test-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-tx-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-web-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-webmvc-3.2.18.RELEASE.jar:/mnt/raddix/opt/netbeans/java/modules/ext/spring-3.0/spring-webmvc-portlet-3.2.18.RELEASE.jar" />
     <property name="javac.test.classpath" value=":build/classes:/mnt/raddix/opt/netbeans/platform/modules/ext/junit-4.13.2.jar:/mnt/raddix/opt/netbeans/platform/modules/ext/hamcrest-core-1.3.jar" />
@@ -17,12 +17,12 @@
     <property name="libs.jsp-compilation.src" value="" />
     <property name="libs.JWSAntTasks.javadoc" value="" />
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-11-openjdk-amd64/lib" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner towa.IATowaTest methods=testActiver skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build/test/results/TEST-towa.IATowaTest.xml crashfile=/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build/junitvmwatcher11487036664992672884.properties propsfile=/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build/junit8537920804815339845.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner towa.IATowaTest methods=testEvaluatePlateau skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build/test/results/TEST-towa.IATowaTest.xml crashfile=/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build/junitvmwatcher11231864184591739012.properties propsfile=/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build/junit14398240502745676849.properties" />
     <property name="jdk.debug" value="release" />
     <property name="libs.spring-framework300.src" value="" />
     <property name="javadoc.use" value="true" />
     <property name="javadoc.notree" value="false" />
-    <property name="basedir" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA" />
+    <property name="basedir" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA" />
     <property name="application.vendor" value="olivier" />
     <property name="java.specification.name" value="Java Platform API Specification" />
     <property name="java.vm.specification.vendor" value="Oracle Corporation" />
@@ -84,7 +84,7 @@
     <property name="annotation.processing.processors.list" value="" />
     <property name="javac.deprecation" value="false" />
     <property name="jlink.launcher" value="true" />
-    <property name="ant.file.IATowa" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build.xml" />
+    <property name="ant.file.IATowa" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build.xml" />
     <property name="build.generated.sources.dir" value="build/generated-sources" />
     <property name="plugin.manager.check.updates" value="false" />
     <property name="netbeans.autoupdate.language" value="fr" />
@@ -97,7 +97,7 @@
     <property name="modules.supported.internal" value="true" />
     <property name="libs.javaee-endorsed-api-7.0.javadoc" value="/mnt/raddix/opt/netbeans/enterprise/docs/javaee-doc-api.jar" />
     <property name="jna.nosys" value="false" />
-    <property name="os.version" value="5.19.0-35-generic" />
+    <property name="os.version" value="6.2.0-33-generic" />
     <property name="netbeans.home" value="/mnt/raddix/opt/netbeans/platform" />
     <property name="libs.CopyLibs.javadoc" value="" />
     <property name="debug-transport-by-os" value="dt_socket" />
@@ -130,7 +130,7 @@
     <property name="libs.absolutelayout.src" value="" />
     <property name="testng.mode" value="testng" />
     <property name="annotation.processing.enabled.in.editor" value="false" />
-    <property name="java.vm.compressedOopsMode" value="32-bit" />
+    <property name="java.vm.compressedOopsMode" value="Zero based" />
     <property name="netbeans.productversion" value="Apache NetBeans IDE 16" />
     <property name="mkdist.disabled" value="false" />
     <property name="libs.javaee-web-api-6.0.javadoc" value="/mnt/raddix/opt/netbeans/enterprise/docs/javaee-doc-api.jar" />
@@ -154,7 +154,7 @@
     <property name="javac.test.processorpath" value=":build/classes:/mnt/raddix/opt/netbeans/platform/modules/ext/junit-4.13.2.jar:/mnt/raddix/opt/netbeans/platform/modules/ext/hamcrest-core-1.3.jar" />
     <property name="libs.javaee-web-api-7.0.maven-pom" value="" />
     <property name="libs.javaee-web-api-8.0.maven-pom" value="" />
-    <property name="ant.file.IATowa-impl" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/nbproject/build-impl.xml" />
+    <property name="ant.file.IATowa-impl" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/nbproject/build-impl.xml" />
     <property name="netbeans.dirs" value="/mnt/raddix/opt/netbeans/nb:/mnt/raddix/opt/netbeans/ergonomics:/mnt/raddix/opt/netbeans/ide:/mnt/raddix/opt/netbeans/extide:/mnt/raddix/opt/netbeans/java:/mnt/raddix/opt/netbeans/apisupport:/mnt/raddix/opt/netbeans/webcommon:/mnt/raddix/opt/netbeans/websvccommon:/mnt/raddix/opt/netbeans/enterprise:/mnt/raddix/opt/netbeans/mobility:/mnt/raddix/opt/netbeans/profiler:/mnt/raddix/opt/netbeans/python:/mnt/raddix/opt/netbeans/php:/mnt/raddix/opt/netbeans/identity:/mnt/raddix/opt/netbeans/harness:/mnt/raddix/opt/netbeans/cnd:/mnt/raddix/opt/netbeans/cndext:/mnt/raddix/opt/netbeans/cpplite:/mnt/raddix/opt/netbeans/dlight:/mnt/raddix/opt/netbeans/groovy:/mnt/raddix/opt/netbeans/extra:/mnt/raddix/opt/netbeans/javacard:/mnt/raddix/opt/netbeans/javafx:" />
     <property name="libs.hamcrest.maven-pom" value="" />
     <property name="javac.processorpath" value="" />
@@ -170,7 +170,7 @@
     <property name="libs.restapi.javadoc" value="" />
     <property name="libs.jpa20-persistence.src" value="" />
     <property name="endorsed.classpath" value="" />
-    <property name="javac.test.sourcepath" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build/empty" />
+    <property name="javac.test.sourcepath" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build/empty" />
     <property name="libs.spring-webmvc3.0.maven-pom" value="" />
     <property name="junit.selected.version" value="4" />
     <property name="includes" value="**" />
@@ -204,7 +204,7 @@
     <property name="libs.jsp-compilation-syscp.classpath" value="/mnt/raddix/opt/netbeans/extide/ant/lib/ant.jar:/mnt/raddix/opt/netbeans/enterprise/modules/ext/servlet3.1-jsp2.3-api.jar:/mnt/raddix/opt/netbeans/enterprise/modules/ext/glassfish-jspparser-4.0.jar:/mnt/raddix/opt/netbeans/enterprise/modules/ext/jstl-impl.jar:/mnt/raddix/opt/netbeans/enterprise/modules/ext/jsf-2_2/javax.faces.jar" />
     <property name="libs.jsp-compilation.classpath" value="/mnt/raddix/opt/netbeans/extide/ant/lib/ant.jar:/mnt/raddix/opt/netbeans/enterprise/modules/ext/servlet3.1-jsp2.3-api.jar:/mnt/raddix/opt/netbeans/enterprise/modules/ext/glassfish-jspparser-4.0.jar:/mnt/raddix/opt/netbeans/enterprise/modules/ext/jsf-2_2/javax.faces.jar:/mnt/raddix/opt/netbeans/enterprise/modules/ext/jstl-api.jar:/mnt/raddix/opt/netbeans/extide/ant/lib/ant-launcher.jar" />
     <property name="libs.javaee-api-6.0.classpath" value="/mnt/raddix/opt/netbeans/enterprise/modules/ext/javaee-api-6.0.jar" />
-    <property name="javac.includesfile.binary" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/null1327548704" />
+    <property name="javac.includesfile.binary" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/null2085951906" />
     <property name="libs.javaee-api-7.0.classpath" value="/mnt/raddix/opt/netbeans/enterprise/modules/ext/javaee-api-7.0.jar" />
     <property name="sun.cpu.isalist" value="" />
     <property name="file.reference.Towa-test" value="test" />
@@ -225,7 +225,7 @@
     <property name="java.specification.vendor" value="Oracle Corporation" />
     <property name="java.version.date" value="2023-08-24" />
     <property name="java.home" value="/usr/lib/jvm/java-11-openjdk-amd64" />
-    <property name="work.dir" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA" />
+    <property name="work.dir" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA" />
     <property name="jna.boot.library.name" value="jnidispatch-nb" />
     <property name="javac.test.compilerargs" value="" />
     <property name="libs.PostgreSQLDriver.classpath" value="/mnt/raddix/opt/netbeans/ide/modules/ext/postgresql-42.2.16.jar" />
@@ -243,13 +243,13 @@
     <property name="libs.javaee-web-api-7.0.classpath" value="/mnt/raddix/opt/netbeans/enterprise/modules/ext/javaee-web-api-7.0.jar" />
     <property name="file.encoding" value="UTF-8" />
     <property name="java.util.logging.config.class" value="org.netbeans.core.startup.TopLogging" />
-    <property name="https.nonProxyHosts" value="localhost|127.0.0.1|vdi-linux-05" />
+    <property name="https.nonProxyHosts" value="localhost|127.0.0.1|info-205-10x" />
     <property name="libs.restlib.javadoc" value="" />
     <property name="libs.absolutelayout.classpath" value="/mnt/raddix/opt/netbeans/java/modules/ext/AbsoluteLayout.jar" />
     <property name="do.archive" value="true" />
     <property name="libs.struts.maven-pom" value="" />
     <property name="java.awt.printerjob" value="sun.print.PSPrinterJob" />
-    <property name="built-jar.properties" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build/built-jar.properties" />
+    <property name="built-jar.properties" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build/built-jar.properties" />
     <property name="nb.native.filechooser" value="false" />
     <property name="libs.testng.src" value="" />
     <property name="platform.active" value="default_platform" />
@@ -275,7 +275,7 @@
     <property name="libs.jakartaee-api-8.0.maven-pom" value="" />
     <property name="jdkBug6558476" value="false" />
     <property name="javadoc.author" value="false" />
-    <property name="http.nonProxyHosts" value="localhost|127.0.0.1|vdi-linux-05" />
+    <property name="http.nonProxyHosts" value="localhost|127.0.0.1|info-205-10x" />
     <property name="main.class" value="towa.MonTacheron" />
     <property name="libs.jsp-compilation-syscp.javadoc" value="" />
     <property name="source.encoding" value="UTF-8" />
@@ -291,7 +291,7 @@
     <property name="libs.graaljs.src" value="" />
     <property name="run.jvmargs" value="" />
     <property name="libs.primefaces.src" value="" />
-    <property name="ant.file" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build.xml" />
+    <property name="ant.file" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build.xml" />
     <property name="libs.struts.src" value="" />
     <property name="path.separator" value=":" />
     <property name="libs.JAXB-ENDORSED.classpath" value="/mnt/raddix/opt/netbeans/ide/modules/ext/jaxb/api/jaxb-api.jar" />
@@ -327,14 +327,14 @@
     <property name="libs.jsf20.javadoc" value="/mnt/raddix/opt/netbeans/enterprise/docs/javaee-doc-api.jar" />
     <property name="netbeans.importclass" value="org.netbeans.upgrade.AutoUpgrade" />
     <property name="netbeans.autoupdate.version" value="1.23" />
-    <property name="empty.dir" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build/empty" />
+    <property name="empty.dir" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build/empty" />
     <property name="netbeans.user" value="/mnt/netta/users/tcastillo/.netbeans/16" />
-    <property name="javac.includes.binary" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build/test/classes/towa/IATowaTest.class" />
+    <property name="javac.includes.binary" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build/test/classes/towa/IATowaTest.class" />
     <property name="file.separator" value="/" />
     <property name="line.separator" value="&#xa;" />
     <property name="javadoc.additionalparam" value="" />
     <property name="libs.spring-webmvc5.0.classpath" value="/mnt/raddix/opt/netbeans/java/modules/ext/spring-5/spring-webmvc-5.2.9.RELEASE.jar" />
-    <property name="test.method" value="testActiver" />
+    <property name="test.method" value="testEvaluatePlateau" />
     <property name="javac.debug" value="true" />
     <property name="libs.restlib.maven-pom" value="" />
     <property name="libs.testng.classpath" value="/mnt/raddix/opt/netbeans/platform/modules/ext/testng-6.14.3.jar:/mnt/raddix/opt/netbeans/platform/modules/ext/jcommander-1.78.jar" />
@@ -370,7 +370,7 @@
     <property name="user.properties.file" value="/mnt/netta/users/tcastillo/.netbeans/16/build.properties" />
     <property name="javac.includes" value="towa/IATowaTest.java" />
     <property name="netbeans.autoupdate.country" value="FR" />
-    <property name="java.class.path" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build/classes:/mnt/raddix/opt/netbeans/platform/modules/ext/junit-4.13.2.jar:/mnt/raddix/opt/netbeans/platform/modules/ext/hamcrest-core-1.3.jar:/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA/build/test/classes:/mnt/raddix/opt/netbeans/extide/ant/lib/ant-launcher.jar:/mnt/raddix/opt/netbeans/extide/ant/lib/ant.jar:/mnt/raddix/opt/netbeans/extide/ant/lib/ant-junit.jar:/mnt/raddix/opt/netbeans/extide/ant/lib/ant-junit4.jar" />
+    <property name="java.class.path" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build/classes:/mnt/raddix/opt/netbeans/platform/modules/ext/junit-4.13.2.jar:/mnt/raddix/opt/netbeans/platform/modules/ext/hamcrest-core-1.3.jar:/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA/build/test/classes:/mnt/raddix/opt/netbeans/extide/ant/lib/ant-launcher.jar:/mnt/raddix/opt/netbeans/extide/ant/lib/ant.jar:/mnt/raddix/opt/netbeans/extide/ant/lib/ant-junit.jar:/mnt/raddix/opt/netbeans/extide/ant/lib/ant-junit4.jar" />
     <property name="libs.javaee-web-api-6.0.maven-pom" value="" />
     <property name="java.vm.vendor" value="Ubuntu" />
     <property name="ap.supported.internal" value="true" />
@@ -411,7 +411,7 @@
     <property name="libs.PostgreSQLDriver.src" value="" />
     <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-lts" />
     <property name="annotation.processing.source.output" value="build/generated-sources/ap-source-output" />
-    <property name="user.dir" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/algoprogs1/TowaIA" />
+    <property name="user.dir" value="/mnt/netta/users/tcastillo/Documents/R1.O1_AlgoProg/towaia/TowaIA" />
     <property name="libs.javaee-endorsed-api-6.0.maven-pom" value="" />
     <property name="platform.java" value="/usr/lib/jvm/java-11-openjdk-amd64/bin/java" />
     <property name="application.args" value="" />
@@ -430,74 +430,10 @@
     <property name="libs.jakartaee-api-8.0.src" value="" />
     <property name="libs.javaee-endorsed-api-6.0.classpath" value="/mnt/raddix/opt/netbeans/enterprise/modules/ext/javaee6-endorsed/javax.annotation.jar:/mnt/raddix/opt/netbeans/enterprise/modules/ext/javaee6-endorsed/jaxb-api-osgi.jar:/mnt/raddix/opt/netbeans/enterprise/modules/ext/javaee6-endorsed/webservices-api-osgi.jar" />
   </properties>
-  <testcase classname="towa.IATowaTest" name="testActiver" time="0.025" />
-  <system-out><![CDATA[+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |B1 |   |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|N1 |   |   |   |   |   |   |B1 |   |   |   |B1 |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |B1 |   |B1 |   |   |   |   |   |N5 |B1 |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |   |   |B1 |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|B1 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |B1 |   |   |   |   |   |   |N1 |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |   |   |   |   |N1 |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |N1 |N1 |   |   |   |   |   |   |   |   |   |N1 |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |   |N1 |   |   |   |B1 |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |N1 |   |   |   |   |N2 |   |   |   |   |B1 |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |N3 |B4 |B1 |   |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |B1 |B2 |N1 |   |   |N1 |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |N1 |N1 |N2 |   |   |N1 |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |N1 |   |   |   |   |   |N1 |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |B1 |   |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-Activation en mF ......
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |B1 |   |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|N1 |   |   |   |   |   |   |B1 |   |   |   |B1 |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |B1 |   |B1 |   |   |   |   |   |N5 |B1 |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |   |   |B1 |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|B1 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |B1 |   |   |   |   |   |   |N1 |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |   |   |   |   |N1 |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |N1 |N1 |   |   |   |   |   |   |   |   |   |N1 |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |   |N1 |   |   |   |B1 |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |N1 |   |   |   |   |N2 |   |   |   |   |B1 |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |N3 |B4 |B1 |   |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |B1 |B2 |   |   |   |N1 |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |N2 |   |   |N1 |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |N1 |   |   |   |   |   |N1 |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |B1 |   |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+  <testcase classname="towa.IATowaTest" name="testEvaluatePlateau" time="0.034" />
+  <system-out><![CDATA[score:7
+nbPionsAAttaque:8
+nbPionsVulnerables:7
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
