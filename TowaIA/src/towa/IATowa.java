@@ -181,9 +181,8 @@ public class IATowa {
         JoueurTowa joueur = new JoueurTowa();
         String[] actionsPossibles;
         if (profondeurCourante >= profondeurTotale) {
-            return evaluerPlateau(plateau);
+            return evaluatePlateau(plateau);
         }
-
         if (maximising) {
             int score = Integer.MIN_VALUE;
             actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
@@ -222,12 +221,45 @@ public class IATowa {
      * @param plateau plateau du jeu
      * @return score du plateau
      */
-    public int evaluerPlateau(Case[][] plateau){
+    public int evaluatePlateau(Case[][] plateau){
+        int nbPionsVulnerables = 0;
+        int nbPionsAAttaque = 0;
+        int score = 0;
+
         NbPions nbPions = JoueurTowa.nbPions(plateau);
         if(couleur==Case.CAR_NOIR){
-            return nbPions.nbPionsNoirs - nbPions.nbPionsBlancs;
+            score =  nbPions.nbPionsNoirs - nbPions.nbPionsBlancs;
         }
-        return nbPions.nbPionsBlancs-nbPions.nbPionsNoirs;
+        else{
+            score  = nbPions.nbPionsBlancs-nbPions.nbPionsNoirs;
+        }
+
+        for(int i=0;i<Coordonnees.NB_LIGNES;i++){
+            for(int j=0;j<Coordonnees.NB_COLONNES;j++){
+                boolean enDanger = false;
+                Coordonnees coord = new Coordonnees(i,j);
+                Case caseCourante = plateau[coord.ligne][coord.colonne];
+                if(caseCourante.couleur==couleur){
+                    List<Case> casesAPortee = caseVoisinActivation(plateau, coord, Utils.inverseCouleurJoueur(couleur));
+                    for(Case caseActivation:casesAPortee){
+                        if(caseActivation.hauteur < caseCourante.hauteur){
+                            nbPionsAAttaque += caseActivation.hauteur;
+                        }
+                        else if(caseActivation.hauteur > caseCourante.hauteur){
+                            enDanger = true;
+                        }
+                    }
+                }
+                if(enDanger)nbPionsVulnerables+=caseCourante.hauteur;
+
+
+
+            }
+        }
+        System.out.println("score:"+score);
+        System.out.println("nbPionsAAttaque:"+nbPionsAAttaque);
+        System.out.println("nbPionsVulnerables:"+nbPionsVulnerables);
+        return score + nbPionsAAttaque - nbPionsVulnerables;
     }
 
     /**
