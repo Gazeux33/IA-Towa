@@ -259,9 +259,6 @@ public class IATowa {
 
             }
         }
-        System.out.println("score:"+score);
-        System.out.println("nbPionsAAttaque:"+nbPionsAAttaque);
-        System.out.println("nbPionsVulnerables:"+nbPionsVulnerables);
         return score + nbPionsAAttaque - nbPionsVulnerables;
     }
 

@@ -80,7 +80,7 @@ class MonTacheron {
 
                 joueur = "IATowa";
             } else {
-                actionChoisie = monTacheron.actionChoisie(plateau, nbToursJeu);
+                actionChoisie = monIA2.actionChoisie(plateau, nbToursJeu);
                 joueur = "MonTacheron";
             }
             System.out.println(joueur + " joue : " + actionChoisie);
