@@ -115,6 +115,8 @@ public class IATowa {
      * @param nbToursJeu numéro du tour de jeu
      */
     void jouer(Case[][] plateau, int nbToursJeu) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
+        System.out.println("debut de jouer : lancement le " + format.format(new Date()));
         String actionJouee = actionChoisie(plateau, nbToursJeu);
         if (actionJouee != null) {
             // jouer l'action
@@ -127,6 +129,7 @@ public class IATowa {
             System.out.println("Aucun action trouvée : abandon...");
             grandOrdo.envoyerAction("ABANDON");
         }
+        System.out.println("fin de jouer : fin le le " + format.format(new Date()));
     }
 
 
