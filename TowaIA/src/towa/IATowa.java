@@ -11,7 +11,12 @@ import java.util.stream.Stream;
  * Votre IA pour le jeu Towa.
  */
 public class IATowa {
-
+    
+    /**
+     * Objet random utilisé par tous le programme.
+     */
+    static Random random = new Random();
+    
     /**
      * Hôte du grand ordonnateur.
      */
@@ -36,7 +41,15 @@ public class IATowa {
      * Nombre maximal de tours de jeu.
      */
     static final int NB_TOURS_JEU_MAX = 40;
+    
+    /**
+     * Nombre d'action selectionnées parmi les mieux évaluées et les pires.
+     */
     static final int NB_ACTION_SELEC = 6;
+    
+    /**
+     * Profondeur de l'abre des possibilités calculées (coups d'avances).
+     */
     static final int PROFONDEUR = 4;
 
     /**
@@ -136,48 +149,61 @@ public class IATowa {
     /**
      * L'action choisie par notre IA.
      *
-     * @param plateau le plateau de jeu
-     * @param nbToursJeu numéro du tour de jeu
-     * @return l'action choisie sous forme de chaîne
+     * @param plateau le plateau de jeu.
+     * @param nbToursJeu nombre de tours écoulé depuis le début de la partie.
+     * @return l'action choisie, sous forme de chaîne.
      */
     public String actionChoisie(Case[][] plateau, int nbToursJeu) {
+        
         JoueurTowa joueur = new JoueurTowa();
+        
         String[] actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
-        if(nbToursJeu != 1)actionsPossibles = selectionnerActions(actionsPossibles,couleur);
+        
+        if(nbToursJeu != 1)actionsPossibles = selectionnerActions(actionsPossibles, couleur);
+        
         actionsPossibles = enleverVitaliteTableau(actionsPossibles);
-        return trouveMeilleurAction(plateau,actionsPossibles,PROFONDEUR,nbToursJeu);
+        
+        return trouveMeilleurAction(plateau, actionsPossibles, nbToursJeu);
     }
 
     /**
-     * Permet de trouver la meilleure action
-     * @param plateau plateau du jeu
-     * @param actionsPossibles ensembles des actions possibles
-     * @param profondeur profondeur de recherche dans l'arbre
+     * Permet de trouver la meilleure action.
+     * 
+     * @param plateau du jeu.
+     * @param actionsPossibles ensembles des actions possibles à partir de ce plateau.
      * @return la meilleure action
      */
-    public String trouveMeilleurAction(Case[][] plateau, String[] actionsPossibles,int profondeur,int nbToursJeu){
-        Random r = new Random();
+    public String trouveMeilleurAction(Case[][] plateau, String[] actionsPossibles, int nbToursJeu){
+        
         if(nbToursJeu==1){
+            
             for(String action:actionsPossibles){
-                System.out.print(action+" ");
+                System.out.print(action + " ");
             }
-            int randomNumber = r.nextInt(actionsPossibles.length);
-            System.out.println("nombre aleartoire:"+randomNumber);
+            
+            int randomNumber = random.nextInt(actionsPossibles.length);
+            System.out.println("nombre aleartoire:" + randomNumber);
+            
             return actionsPossibles[randomNumber];
         }
-        int meilleur_score = Integer.MIN_VALUE;
+        
         String meilleur_action = null;
-        int alpha = Integer.MIN_VALUE;// -infinie
-        int beta = Integer.MAX_VALUE;// +infini
-        Case[][] copiePlateau = copierPlateau(plateau);
+        int meilleur_score = Integer.MIN_VALUE;
+        int alpha = Integer.MIN_VALUE; // -infinie
+        int beta = Integer.MAX_VALUE; // +infini
+        
         for(String action:actionsPossibles){
-            Case[][] plateauAModifier = copierPlateau(copiePlateau);
+            
+            Case[][] plateauAModifier = copierPlateau(plateau);
             mettreAJour(plateauAModifier,action,couleur);
-            int score = minMax(plateauAModifier,true,profondeur,0,alpha,beta);
+            int score = minMax(plateauAModifier,true, 0, alpha,beta);
+            
             if(score>meilleur_score){
                 meilleur_action = action;
                 meilleur_score = score;
             }
+            
+            if (meilleur_score <= score ? : meilleur_action = action)
         }
         return meilleur_action;
     }
@@ -189,10 +215,10 @@ public class IATowa {
      * @param profondeurCourante profondeur actuelle
      * @return score de l'action
      */
-    public int minMax(Case[][] plateau, boolean maximising, int profondeurTotale, int profondeurCourante,int alpha ,int beta) {
+    public int minMax(Case[][] plateau, boolean maximising, int profondeurCourante,int alpha ,int beta) {
         JoueurTowa joueur = new JoueurTowa();
         String[] actionsPossibles;
-        if (profondeurCourante >= profondeurTotale) {
+        if (profondeurCourante >= PROFONDEUR) {
             return evaluatePlateau(plateau);
         }
         if (maximising) {
@@ -203,7 +229,7 @@ public class IATowa {
             for (String action : actionsPossibles) {
                 Case[][] plateauCopie = copierPlateau(plateau);
                 mettreAJour(plateauCopie, action, couleur);
-                score = Math.max(score,minMax(plateauCopie, false, profondeurTotale, profondeurCourante + 1,alpha,beta));
+                score = Math.max(score,minMax(plateauCopie, false, profondeurCourante + 1,alpha,beta));
                 alpha = Math.max(alpha, score);
                 if (score >= beta) {
                     break; // Élagage alpha
@@ -219,7 +245,7 @@ public class IATowa {
             for (String action : actionsPossibles) {
                 Case[][] plateauCopie = copierPlateau(plateau);
                 mettreAJour(plateauCopie, action, Utils.inverseCouleurJoueur(couleur));
-                score = Math.min(score,minMax(plateauCopie, true, profondeurTotale, profondeurCourante + 1,alpha,beta));
+                score = Math.min(score,minMax(plateauCopie, true, profondeurCourante + 1,alpha,beta));
                 beta = Math.min(beta, score);
                 if (score <= alpha) {
                     break; // Élagage beta
