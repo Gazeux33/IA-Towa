@@ -21,10 +21,7 @@ public class JoueurTowa implements IJoueurTowa {
      */
     @Override
     public String[] actionsPossibles(Case[][] plateau, char couleurJoueur, int niveau) {
-        // afficher l'heure de lancement
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
-        System.out.println("actionsPossibles : lancement le " + format.format(new Date()));
-        // se préparer à stocker les actions possibles
+
         ActionsPossibles actions = new ActionsPossibles();
         // on compte le nombre de pions sur le plateau avant action
         NbPions nbPions = nbPions(plateau);

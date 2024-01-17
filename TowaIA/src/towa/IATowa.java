@@ -11,7 +11,18 @@ import java.util.stream.Stream;
  * Votre IA pour le jeu Towa.
  */
 public class IATowa {
-    
+
+
+    static class Action {
+        String action;
+        int score;
+        Action(String action, int score){
+            this.action = action;
+            this.score = score;
+        }
+    }
+
+
     /**
      * Objet random utilisé par tous le programme.
      */
@@ -202,8 +213,7 @@ public class IATowa {
                 meilleur_action = action;
                 meilleur_score = score;
             }
-            
-            if (meilleur_score <= score ? : meilleur_action = action)
+
         }
         return meilleur_action;
     }
@@ -211,7 +221,6 @@ public class IATowa {
     /**
      * Fonction recursive visant à determiner le meilleur score
      * @param plateau plateau du jeu
-     * @param profondeurTotale profondeur de recherches
      * @param profondeurCourante profondeur actuelle
      * @return score de l'action
      */
@@ -365,7 +374,7 @@ public class IATowa {
      */
     static void activer(Coordonnees coord, Case[][] plateau, char couleurCourante) {
     Case caseCourante = plateau[coord.ligne][coord.colonne];
-        List<Case> casesAPortee = caseVoisinActivation(plateau, coord, Utils.inverseCouleurJoueur(couleurCourante));
+        Case[] casesAPortee = caseVoisinActivation(plateau, coord, Utils.inverseCouleurJoueur(couleurCourante));
 
 
     for (Case tourADetruire : casesAPortee){
@@ -378,7 +387,7 @@ public class IATowa {
     static void fusionner(Coordonnees coord, Case[][] plateau, char couleurCourante){
         Case caseCourante = plateau[coord.ligne][coord.colonne];
         int nbTours = 0;
-        List<Case> casesAPortee = caseVoisinActivation(plateau, coord, couleurCourante);
+        Case[] casesAPortee = caseVoisinActivation(plateau, coord, couleurCourante);
 
         for (Case tourADetruire : casesAPortee){
             nbTours += tourADetruire.hauteur;
@@ -476,35 +485,53 @@ public class IATowa {
             System.exit(1);
         }
     }
-    
-public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coord, char couleur) {
-    // Stream for diagonal directions
-    Stream<Case> diagonals = Stream.of(
-            new Coordonnees(-1, -1), new Coordonnees(-1, 1),
-            new Coordonnees(1, -1), new Coordonnees(1, 1))
-            .map(d -> new Coordonnees(coord.ligne + d.ligne, coord.colonne + d.colonne))
-            .filter(c -> estDansPlateau(c) && plateau[c.ligne][c.colonne].tourPresente() && plateau[c.ligne][c.colonne].couleur == couleur)
-            .map(c -> plateau[c.ligne][c.colonne]);
 
-    // Stream for straight directions
-    Stream<Case> directions = Stream.of(new int[][] {{0, -1}, {1, 0}, {-1, 0}, {0, 1}})
-            .map(dir -> verifDirectionCouleur(plateau, coord, dir, couleur, 1))
-            .filter(Objects::nonNull);
+    public static Case[] caseVoisinActivation(Case[][] plateau, Coordonnees coord, char couleur) {
+        Case[] cases = new Case[8]; // Taille maximale estimée
+        int nombreVoisine = 0;
 
-    // Combine and collect results
-    return Stream.concat(diagonals, directions).collect(Collectors.toList());
-}
-    
+        // Vérifier les diagonales
+        for (int i = -1; i <= 1; i += 2) {
+            for (int y = -1; y <= 1; y += 2) {
+                Coordonnees newCoord = new Coordonnees(coord.ligne + i, coord.colonne + y);
+                if (estDansPlateau(newCoord) && plateau[newCoord.ligne][newCoord.colonne].tourPresente() && plateau[newCoord.ligne][newCoord.colonne].couleur == couleur) {
+                    cases[nombreVoisine] = plateau[newCoord.ligne][newCoord.colonne];
+                    nombreVoisine++;
+                }
+            }
+        }
+
+        //Directions: Haut, Bas, Gauche, Droite
+        int[][] directions = {{0, -1}, {1, 0}, {-1, 0}, {0, 1}};
+        for (int[] dir : directions) {
+            Case caseDirection = verifDirectionCouleur(plateau, coord, dir, couleur, 1);
+            if (caseDirection != null) {
+                cases[nombreVoisine] = caseDirection;
+                nombreVoisine++;
+            }
+        }
+        return Arrays.copyOf(cases, nombreVoisine);
+    }
+
     public static Case verifDirectionCouleur(Case[][] plateau, Coordonnees coord, int[] direction, char couleur, int depart) {
-    return IntStream.range(depart, Coordonnees.NB_LIGNES)
-        .mapToObj(i -> new Coordonnees(coord.ligne + direction[1] * i, coord.colonne + direction[0] * i))
-        .filter(IATowa::estDansPlateau)
-        .map(c -> plateau[c.ligne][c.colonne])
-        .filter(Case::tourPresente)
-        .findFirst()
-        .filter(c -> c.couleur == couleur)
-        .orElse(null);
-}
+        Case tab = null;
+        boolean tour = false;
+        int i = depart;
+        while (!tour && i < Coordonnees.NB_LIGNES) {
+            Coordonnees coordTemp = new Coordonnees(coord.ligne + direction[1] * i, coord.colonne + direction[0] * i);
+            if (estDansPlateau(coordTemp)) {
+                if (plateau[coordTemp.ligne][coordTemp.colonne].tourPresente()) {
+                    tour = true;
+                    if (plateau[coordTemp.ligne][coordTemp.colonne].couleur == couleur) {
+                        tab = plateau[coordTemp.ligne][coordTemp.colonne];
+                    }
+                }
+            }
+            i++;
+
+        }
+        return tab;
+    }
     
     public static boolean estDansPlateau(Coordonnees coord) {
         return coord.ligne < Coordonnees.NB_LIGNES && coord.colonne < Coordonnees.NB_COLONNES
@@ -530,34 +557,18 @@ public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coor
     }
 
     public static String[] selectionnerActions(String[] actionsPossibles, char couleur) {
-        if(NB_ACTION_SELEC == -1){
-            return actionsPossibles;
+        Action[] tabActions = new Action[actionsPossibles.length];
+        for(int i=0;i<actionsPossibles.length;i++){
+            tabActions[i] = new Action(actionsPossibles[i], scoreAction(actionsPossibles[i], couleur));
         }
-        PriorityQueue<Map.Entry<String, Integer>> meilleuresActions = new PriorityQueue<>(
-                (a, b) -> Integer.compare(b.getValue(), a.getValue())
-        );
+        trieSelection(tabActions);
+        int nombreAction = Math.min(tabActions.length,NB_ACTION_SELEC);
 
-        PriorityQueue<Map.Entry<String, Integer>> piresActions = new PriorityQueue<>(
-                Comparator.comparingInt(Map.Entry::getValue)
-        );
-
-        for (String action : actionsPossibles) {
-            int score = scoreAction(action, couleur);
-            meilleuresActions.add(new AbstractMap.SimpleEntry<>(action, score));
-            piresActions.add(new AbstractMap.SimpleEntry<>(action, score));
+        String[] actionsSelectionnees = new String[nombreAction*2];
+        for(int i=0;i<nombreAction;i++){
+            actionsSelectionnees[i] = tabActions[i].action;
+            actionsSelectionnees[i+nombreAction] = tabActions[tabActions.length-1-i].action;
         }
-
-        String[] actionsSelectionnees = new String[NB_ACTION_SELEC * 2]; // Pour stocker les 10 meilleures et les 10 pires
-
-        for (int i = 0; i < NB_ACTION_SELEC; i++) {
-            if (!meilleuresActions.isEmpty()) {
-                actionsSelectionnees[i] = meilleuresActions.poll().getKey();
-            }
-            if (!piresActions.isEmpty()) {
-                actionsSelectionnees[NB_ACTION_SELEC + i] = piresActions.poll().getKey();
-            }
-        }
-
         return actionsSelectionnees;
     }
 
@@ -584,6 +595,27 @@ public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coor
 
         }
 
+    public static void trieSelection(Action[] actions){
+        for(int i=0;i<actions.length;i++){
+            int indexMin = indexMinAction(actions,i);
+            Action temp = actions[i];
+            actions[i] = actions[indexMin];
+            actions[indexMin] = temp;
+        }
+
+    }
+
+    public static int indexMinAction(Action[] actions,int depart){
+        int index = 0;
+        int min = Integer.MAX_VALUE;
+        for(int i=depart;i<actions.length;i++){
+            if(actions[i].score<min){
+                min = actions[i].score;
+                index = i;
+            }
+        }
+        return index;
+    }
     
 
 }
