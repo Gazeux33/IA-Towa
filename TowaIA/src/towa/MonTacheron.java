@@ -80,7 +80,7 @@ class MonTacheron {
 
                 joueur = "IATowa";
             } else {
-                actionChoisie = monIA2.actionChoisie(plateau, nbToursJeu);
+                actionChoisie = monTacheron.actionChoisie(plateau, nbToursJeu);
                 joueur = "MonTacheron";
             }
             System.out.println(joueur + " joue : " + actionChoisie);
@@ -123,7 +123,7 @@ class MonTacheron {
      */
     public static void main(String[] args) {
         // choisir la couleur de l'AI
-        char couleurIA = Case.CAR_BLANC;
+        char couleurIA = Case.CAR_NOIR;
         // monTacheron prend l'autre couleur
         char couleurTacheron = IATowa.suivant(couleurIA);
         // lancement

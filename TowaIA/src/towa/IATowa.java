@@ -36,8 +36,8 @@ public class IATowa {
      * Nombre maximal de tours de jeu.
      */
     static final int NB_TOURS_JEU_MAX = 40;
-    static final int NB_ACTION_SELEC = 8;
-    static final int PROFONDEUR = 3;
+    static final int NB_ACTION_SELEC = 6;
+    static final int PROFONDEUR = 4;
 
     /**
      * Constructeur.
@@ -143,9 +143,9 @@ public class IATowa {
     public String actionChoisie(Case[][] plateau, int nbToursJeu) {
         JoueurTowa joueur = new JoueurTowa();
         String[] actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
-        actionsPossibles = selectionnerActions(actionsPossibles,couleur);
+        if(nbToursJeu != 1)actionsPossibles = selectionnerActions(actionsPossibles,couleur);
         actionsPossibles = enleverVitaliteTableau(actionsPossibles);
-        return trouveMeilleurAction(plateau,actionsPossibles,PROFONDEUR);
+        return trouveMeilleurAction(plateau,actionsPossibles,PROFONDEUR,nbToursJeu);
     }
 
     /**
@@ -155,7 +155,16 @@ public class IATowa {
      * @param profondeur profondeur de recherche dans l'arbre
      * @return la meilleure action
      */
-    public String trouveMeilleurAction(Case[][] plateau, String[] actionsPossibles,int profondeur){
+    public String trouveMeilleurAction(Case[][] plateau, String[] actionsPossibles,int profondeur,int nbToursJeu){
+        Random r = new Random();
+        if(nbToursJeu==1){
+            for(String action:actionsPossibles){
+                System.out.print(action+" ");
+            }
+            int randomNumber = r.nextInt(actionsPossibles.length);
+            System.out.println("nombre aleartoire:"+randomNumber);
+            return actionsPossibles[randomNumber];
+        }
         int meilleur_score = Integer.MIN_VALUE;
         String meilleur_action = null;
         int alpha = Integer.MIN_VALUE;// -infinie
@@ -230,36 +239,10 @@ public class IATowa {
         int score = 0;
 
         NbPions nbPions = JoueurTowa.nbPions(plateau);
-        if(couleur==Case.CAR_NOIR){
-            score =  nbPions.nbPionsNoirs - nbPions.nbPionsBlancs;
+        if(couleur==Case.CAR_NOIR) {
+            return nbPions.nbPionsNoirs - nbPions.nbPionsBlancs;
         }
-        else{
-            score  = nbPions.nbPionsBlancs-nbPions.nbPionsNoirs;
-        }
-
-        for(int i=0;i<Coordonnees.NB_LIGNES;i++){
-            for(int j=0;j<Coordonnees.NB_COLONNES;j++){
-                boolean enDanger = false;
-                Coordonnees coord = new Coordonnees(i,j);
-                Case caseCourante = plateau[coord.ligne][coord.colonne];
-                if(caseCourante.couleur==couleur){
-                    List<Case> casesAPortee = caseVoisinActivation(plateau, coord, Utils.inverseCouleurJoueur(couleur));
-                    for(Case caseActivation:casesAPortee){
-                        if(caseActivation.hauteur < caseCourante.hauteur){
-                            nbPionsAAttaque += caseActivation.hauteur;
-                        }
-                        else if(caseActivation.hauteur > caseCourante.hauteur){
-                            enDanger = true;
-                        }
-                    }
-                }
-                if(enDanger)nbPionsVulnerables+=caseCourante.hauteur;
-
-
-
-            }
-        }
-        return score + nbPionsAAttaque - nbPionsVulnerables;
+        return nbPions.nbPionsBlancs-nbPions.nbPionsNoirs;
     }
 
     /**
@@ -562,14 +545,13 @@ public static List<Case> caseVoisinActivation(Case[][] plateau, Coordonnees coor
 
     public static int scoreAction(String action,char couleur){
         int[] numbers = getVitalite(action);
-
         switch (couleur){
             case Case.CAR_NOIR:
                 return numbers[0]-numbers[1];
-            
+
             case Case.CAR_BLANC:
                 return numbers[1]-numbers[0];
-            
+
             default:
                 return 0;
             }
