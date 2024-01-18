@@ -56,12 +56,12 @@ public class IATowa {
     /**
      * Nombre d'action selectionnées parmi les mieux évaluées et les pires.
      */
-    static final int NB_ACTION_SELEC = 6;
+    static final int NB_ACTION_SELEC = 8;
     
     /**
      * Profondeur de l'abre des possibilités calculées (coups d'avances).
      */
-    static final int PROFONDEUR = 4;
+    static final int PROFONDEUR = 3;
 
     /**
      * Constructeur.
