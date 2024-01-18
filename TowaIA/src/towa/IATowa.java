@@ -357,7 +357,7 @@ public class IATowa {
             laCase.hauteur++;
         } else {
             laCase.couleur = couleurCourante;
-            if (ennemiVoisine(coord, plateau, couleurCourante)) {
+            if (JoueurTowa.nombreVoisinsAdversaires(plateau, coord, couleurCourante) > 0) {
                 laCase.hauteur = 2;
             } else {
                 laCase.hauteur = 1;
@@ -406,35 +406,6 @@ public class IATowa {
         laCase.couleur = Case.CAR_VIDE;
     }
 
-    /**
-     * Indique si une case possède une case voisine avec une tour ennemie.
-     *
-     * @param coord la case dont on souhaite analyser les voisines
-     * @param plateau le plateau courant
-     * @param couleurCourante couleur du joueur courant
-     * @return vrai ssi la case possède une voisine avec une tour ennemie
-     */
-    static boolean ennemiVoisine(Coordonnees coord, Case[][] plateau, char couleurCourante) {
-        return voisines(coord)
-                .map(v -> plateau[v.ligne][v.colonne])
-                .filter(Case::tourPresente)
-                .anyMatch(c -> c.couleur != couleurCourante);
-    }
-
-    /**
-     * Les coordonnées des cases voisines dans le plateau.
-     *
-     * @param coord les coordonnées de la case d'origine
-     * @return les coordonnées des cases voisines
-     */
-    static Stream<Coordonnees> voisines(final Coordonnees coord) {
-        return IntStream.rangeClosed(-1, 1).boxed()
-                .flatMap(l -> IntStream.rangeClosed(-1, 1)
-                .filter(c -> !(l == 0 && c == 0))
-                .mapToObj(c -> new Coordonnees(coord.ligne + l, coord.colonne + c)))
-                .filter(v -> 0 <= v.ligne && v.ligne < Coordonnees.NB_LIGNES)
-                .filter(v -> 0 <= v.colonne && v.colonne < Coordonnees.NB_COLONNES);
-    }
 
 
     /**
