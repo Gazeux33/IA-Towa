@@ -374,7 +374,7 @@ public class IATowa {
      */
     static void activer(Coordonnees coord, Case[][] plateau, char couleurCourante) {
     Case caseCourante = plateau[coord.ligne][coord.colonne];
-        Case[] casesAPortee = caseVoisinActivation(plateau, coord, Utils.inverseCouleurJoueur(couleurCourante));
+        Case[] casesAPortee = JoueurTowa.caseVoisinActivation(plateau, coord, Utils.inverseCouleurJoueur(couleurCourante));
 
 
     for (Case tourADetruire : casesAPortee){
@@ -387,7 +387,7 @@ public class IATowa {
     static void fusionner(Coordonnees coord, Case[][] plateau, char couleurCourante){
         Case caseCourante = plateau[coord.ligne][coord.colonne];
         int nbTours = 0;
-        Case[] casesAPortee = caseVoisinActivation(plateau, coord, couleurCourante);
+        Case[] casesAPortee = JoueurTowa.caseVoisinActivation(plateau, coord, couleurCourante);
 
         for (Case tourADetruire : casesAPortee){
             nbTours += tourADetruire.hauteur;
@@ -486,62 +486,12 @@ public class IATowa {
         }
     }
 
-    public static Case[] caseVoisinActivation(Case[][] plateau, Coordonnees coord, char couleur) {
-        Case[] cases = new Case[8]; // Taille maximale estimée
-        int nombreVoisine = 0;
-
-        // Vérifier les diagonales
-        for (int i = -1; i <= 1; i += 2) {
-            for (int y = -1; y <= 1; y += 2) {
-                Coordonnees newCoord = new Coordonnees(coord.ligne + i, coord.colonne + y);
-                if (estDansPlateau(newCoord) && plateau[newCoord.ligne][newCoord.colonne].tourPresente() && plateau[newCoord.ligne][newCoord.colonne].couleur == couleur) {
-                    cases[nombreVoisine] = plateau[newCoord.ligne][newCoord.colonne];
-                    nombreVoisine++;
-                }
-            }
-        }
-
-        //Directions: Haut, Bas, Gauche, Droite
-        int[][] directions = {{0, -1}, {1, 0}, {-1, 0}, {0, 1}};
-        for (int[] dir : directions) {
-            Case caseDirection = verifDirectionCouleur(plateau, coord, dir, couleur, 1);
-            if (caseDirection != null) {
-                cases[nombreVoisine] = caseDirection;
-                nombreVoisine++;
-            }
-        }
-        return Arrays.copyOf(cases, nombreVoisine);
-    }
-
-    public static Case verifDirectionCouleur(Case[][] plateau, Coordonnees coord, int[] direction, char couleur, int depart) {
-        Case tab = null;
-        boolean tour = false;
-        int i = depart;
-        while (!tour && i < Coordonnees.NB_LIGNES) {
-            Coordonnees coordTemp = new Coordonnees(coord.ligne + direction[1] * i, coord.colonne + direction[0] * i);
-            if (estDansPlateau(coordTemp)) {
-                if (plateau[coordTemp.ligne][coordTemp.colonne].tourPresente()) {
-                    tour = true;
-                    if (plateau[coordTemp.ligne][coordTemp.colonne].couleur == couleur) {
-                        tab = plateau[coordTemp.ligne][coordTemp.colonne];
-                    }
-                }
-            }
-            i++;
-
-        }
-        return tab;
-    }
-    
-    public static boolean estDansPlateau(Coordonnees coord) {
-        return coord.ligne < Coordonnees.NB_LIGNES && coord.colonne < Coordonnees.NB_COLONNES
-                && coord.ligne >= 0 && coord.colonne >= 0;
-    }
-
     public static String[] enleverVitaliteTableau(String[] actions){
-        return Arrays.stream(actions)
-                .map(ActionsPossibles::enleverVitalites)
-                .toArray(String[]::new);
+        String[] actionsSansVitalite = new String[actions.length];
+        for(int i=0;i<actions.length;i++){
+            actionsSansVitalite[i] = ActionsPossibles.enleverVitalites(actions[i]);
+        }
+        return actionsSansVitalite;
     }
 
     public static Case[][] copierPlateau(Case[][] plateau){
@@ -561,7 +511,7 @@ public class IATowa {
         for(int i=0;i<actionsPossibles.length;i++){
             tabActions[i] = new Action(actionsPossibles[i], scoreAction(actionsPossibles[i], couleur));
         }
-        trieSelection(tabActions);
+        triSelection(tabActions);
         int nombreAction = Math.min(tabActions.length,NB_ACTION_SELEC);
 
         String[] actionsSelectionnees = new String[nombreAction*2];
@@ -595,7 +545,7 @@ public class IATowa {
 
         }
 
-    public static void trieSelection(Action[] actions){
+    public static void triSelection(Action[] actions){
         for(int i=0;i<actions.length;i++){
             int indexMin = indexMinAction(actions,i);
             Action temp = actions[i];
