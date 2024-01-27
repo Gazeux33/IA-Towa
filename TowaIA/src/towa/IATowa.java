@@ -3,9 +3,7 @@ package towa;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
 
 /**
  * Votre IA pour le jeu Towa.
@@ -53,15 +51,7 @@ public class IATowa {
      */
     static final int NB_TOURS_JEU_MAX = 40;
     
-    /**
-     * Nombre d'action selectionnées parmi les mieux évaluées et les pires.
-     */
-    static final int NB_ACTION_SELEC = 8;
-    
-    /**
-     * Profondeur de l'abre des possibilités calculées (coups d'avances).
-     */
-    static final int PROFONDEUR = 3;
+
 
     /**
      * Constructeur.
@@ -170,115 +160,15 @@ public class IATowa {
         
         String[] actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
         
-        if(nbToursJeu != 1)actionsPossibles = selectionnerActions(actionsPossibles, couleur);
+
         
-        actionsPossibles = enleverVitaliteTableau(actionsPossibles);
-        
-        return trouveMeilleurAction(plateau, actionsPossibles, nbToursJeu);
+        return MinMax.trouveMeilleurAction(plateau, actionsPossibles, nbToursJeu,couleur);
     }
 
-    /**
-     * Permet de trouver la meilleure action.
-     * 
-     * @param plateau du jeu.
-     * @param actionsPossibles ensembles des actions possibles à partir de ce plateau.
-     * @return la meilleure action
-     */
-    public String trouveMeilleurAction(Case[][] plateau, String[] actionsPossibles, int nbToursJeu){
-        
-        if(nbToursJeu==1){
-            
-            for(String action:actionsPossibles){
-                System.out.print(action + " ");
-            }
-            
-            int randomNumber = random.nextInt(actionsPossibles.length);
-            System.out.println("nombre aleartoire:" + randomNumber);
-            
-            return actionsPossibles[randomNumber];
-        }
-        
-        String meilleur_action = null;
-        int meilleur_score = Integer.MIN_VALUE;
-        int alpha = Integer.MIN_VALUE; // -infinie
-        int beta = Integer.MAX_VALUE; // +infini
-        
-        for(String action:actionsPossibles){
-            
-            Case[][] plateauAModifier = copierPlateau(plateau);
-            mettreAJour(plateauAModifier,action,couleur);
-            int score = minMax(plateauAModifier,true, 0, alpha,beta);
-            
-            if(score>meilleur_score){
-                meilleur_action = action;
-                meilleur_score = score;
-            }
 
-        }
-        return meilleur_action;
-    }
 
-    /**
-     * Fonction recursive visant à determiner le meilleur score
-     * @param plateau plateau du jeu
-     * @param profondeurCourante profondeur actuelle
-     * @return score de l'action
-     */
-    public int minMax(Case[][] plateau, boolean maximising, int profondeurCourante,int alpha ,int beta) {
-        JoueurTowa joueur = new JoueurTowa();
-        String[] actionsPossibles;
-        if (profondeurCourante >= PROFONDEUR) {
-            return evaluatePlateau(plateau);
-        }
-        if (maximising) {
-            int score = Integer.MIN_VALUE;
-            actionsPossibles = joueur.actionsPossibles(plateau, couleur, 8);
-            actionsPossibles = selectionnerActions(actionsPossibles,couleur);
-            actionsPossibles = enleverVitaliteTableau(actionsPossibles);
-            for (String action : actionsPossibles) {
-                Case[][] plateauCopie = copierPlateau(plateau);
-                mettreAJour(plateauCopie, action, couleur);
-                score = Math.max(score,minMax(plateauCopie, false, profondeurCourante + 1,alpha,beta));
-                alpha = Math.max(alpha, score);
-                if (score >= beta) {
-                    break; // Élagage alpha
-                }
 
-            }
-            return score;
-        } else {
-            int score = Integer.MAX_VALUE;
-            actionsPossibles = joueur.actionsPossibles(plateau, Utils.inverseCouleurJoueur(couleur), 8);
-            actionsPossibles = selectionnerActions(actionsPossibles,Utils.inverseCouleurJoueur(couleur));
-            actionsPossibles = enleverVitaliteTableau(actionsPossibles);
-            for (String action : actionsPossibles) {
-                Case[][] plateauCopie = copierPlateau(plateau);
-                mettreAJour(plateauCopie, action, Utils.inverseCouleurJoueur(couleur));
-                score = Math.min(score,minMax(plateauCopie, true, profondeurCourante + 1,alpha,beta));
-                beta = Math.min(beta, score);
-                if (score <= alpha) {
-                    break; // Élagage beta
-                }
-            }
-            return score;
-        }
-    }
-    /**
-     * Permet d'évaluer le plateau de jeu
-     * @param plateau plateau du jeu
-     * @return score du plateau
-     */
-    public int evaluatePlateau(Case[][] plateau){
-        int nbPionsVulnerables = 0;
-        int nbPionsAAttaque = 0;
-        int score = 0;
 
-        NbPions nbPions = JoueurTowa.nbPions(plateau);
-        if(couleur==Case.CAR_NOIR) {
-            return nbPions.nbPionsNoirs - nbPions.nbPionsBlancs;
-        }
-        return nbPions.nbPionsBlancs-nbPions.nbPionsNoirs;
-    }
 
     /**
      * L'adversaire joue : on récupère son action, met à jour le plateau, et
@@ -477,21 +367,7 @@ public class IATowa {
         return newPlateau;
     }
 
-    public static String[] selectionnerActions(String[] actionsPossibles, char couleur) {
-        Action[] tabActions = new Action[actionsPossibles.length];
-        for(int i=0;i<actionsPossibles.length;i++){
-            tabActions[i] = new Action(actionsPossibles[i], scoreAction(actionsPossibles[i], couleur));
-        }
-        triSelection(tabActions);
-        int nombreAction = Math.min(tabActions.length,NB_ACTION_SELEC);
 
-        String[] actionsSelectionnees = new String[nombreAction*2];
-        for(int i=0;i<nombreAction;i++){
-            actionsSelectionnees[i] = tabActions[i].action;
-            actionsSelectionnees[i+nombreAction] = tabActions[tabActions.length-1-i].action;
-        }
-        return actionsSelectionnees;
-    }
 
     public static int[] getVitalite(String action){
         String[] parts = action.split(",");
@@ -501,42 +377,11 @@ public class IATowa {
         return numbers;
     }
 
-    public static int scoreAction(String action,char couleur){
-        int[] numbers = getVitalite(action);
-        switch (couleur){
-            case Case.CAR_NOIR:
-                return numbers[0]-numbers[1];
 
-            case Case.CAR_BLANC:
-                return numbers[1]-numbers[0];
 
-            default:
-                return 0;
-            }
 
-        }
 
-    public static void triSelection(Action[] actions){
-        for(int i=0;i<actions.length;i++){
-            int indexMin = indexMinAction(actions,i);
-            Action temp = actions[i];
-            actions[i] = actions[indexMin];
-            actions[indexMin] = temp;
-        }
 
-    }
-
-    public static int indexMinAction(Action[] actions,int depart){
-        int index = 0;
-        int min = Integer.MAX_VALUE;
-        for(int i=depart;i<actions.length;i++){
-            if(actions[i].score<min){
-                min = actions[i].score;
-                index = i;
-            }
-        }
-        return index;
-    }
     
 
 }

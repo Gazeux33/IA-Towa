@@ -3,9 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package towa;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import java.io.IOException;
@@ -54,9 +52,7 @@ public class IATowaTest {
         Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_FUSION);
         DessinerPlateau.dessinerPlateau(plateau);
         String action = ia.actionChoisie(plateau,40);
-        System.out.println(action);
-        System.out.println("plateau a l'instant t:");
-        DessinerPlateau.dessinerPlateau(plateau);
+        System.out.println("meilleur action:"+action);
         IATowa.mettreAJour(plateau,action,couleur);
         DessinerPlateau.dessinerPlateau(plateau);
 
@@ -65,10 +61,9 @@ public class IATowaTest {
     @Test
     public void testTrouverMeilleurActionUnique(){
         char couleur = Case.CAR_NOIR;
-        IATowa ia = new IATowa("HOTE",1,couleur);
         Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_FUSION);
         String[] actionsPossibles = new String[]{"FgG","PeE"};
-        String meilleurAction = ia.trouveMeilleurAction(plateau,actionsPossibles,4);
+        String meilleurAction = MinMax.trouveMeilleurAction(plateau,actionsPossibles,4,couleur);
         System.out.println(meilleurAction);
     }
 
@@ -76,7 +71,7 @@ public class IATowaTest {
     public void testEvaluatePlateau(){
         IATowa ia = new IATowa("hote",1,Case.CAR_NOIR);
         Case[][] plateau = Utils.plateauDepuisTexte(PLATEAU_MOYEN);
-        ia.evaluatePlateau(plateau);
+        MinMax.evaluatePlateau(plateau,Case.CAR_NOIR);
     }
 
     final String PLATEAU_EVALUATE
